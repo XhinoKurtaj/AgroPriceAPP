@@ -1,0 +1,33 @@
+﻿using DocumentManagementSystem.Core.Data.Mapping;
+using DocumentManagementSystem.Core.Extensions;
+using DocumentManagementSystem.Domain.Domain.Document;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DocumentManagementSystem.Data.Mapping.Document
+{
+    public class DocumentsMap : BaseEntityTypeConfiguration<Documents>
+    {
+        public override void Configure(EntityTypeBuilder<Documents> builder)
+        {
+            //this maps the table name nameof(Documents)
+            //and mark id as primary key 
+            builder.MapDefaults();
+            builder.Property(model => model.Title).IsRequired().HasMaxLength(128);
+            builder.Property(model => model.Description).IsRequired();
+            builder.Property(model => model.Path).IsRequired().HasMaxLength(128);
+            builder.Property(model => model.UploadDate).IsRequired();
+            builder.Property(model => model.OriginalFileName).IsRequired();
+            builder.Property(model => model.IsShareable).IsRequired();
+
+            builder.HasOne(model => model.User)
+                .WithMany(foreign => foreign.Documents)
+                .HasForeignKey(model => model.UserId)
+                .IsRequired();
+
+            base.Configure(builder);
+        }
+    }
+}
