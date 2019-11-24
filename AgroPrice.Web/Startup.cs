@@ -22,6 +22,7 @@ using AgroPrice.Services.Account;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using AgroPrice.Services.Account.Models;
 
 namespace AgroPrice.Web
 {
@@ -43,15 +44,49 @@ namespace AgroPrice.Web
 
             services.AddSqlServerContext(Configuration.GetConnectionString("DefaultConnection"), "AgroPrice.Data");
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<EntityDbContext>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+
             services.AddAutoMapper(typeof(BaseEntity).Assembly);
             Mapper.Initialize(cfg =>
             {
                 cfg.AddProfile(typeof(MapperProfile));
                 cfg.AddProfile(typeof(CommandsMapperProfile));
             });
+
+            var mvcBuilder = services.AddMvc().AddFluentValidation(fvc =>
+                fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+            mvcBuilder.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
+            services.AddTransient<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -79,6 +114,7 @@ namespace AgroPrice.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

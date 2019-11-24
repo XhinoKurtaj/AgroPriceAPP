@@ -7,9 +7,9 @@ namespace AgroPrice.Services.Account.Models
     public class LoginViewModel
     {
         /// <summary>
-        /// Username property on login
+        /// Email property on login
         /// </summary>
-        public string UserName { get; set; }
+        public string Email { get; set; }
         /// <summary>
         /// Password property on login 
         /// </summary>

@@ -1,0 +1,138 @@
+﻿@model AgroPrice.Services.Account.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .divider-text {
+    position: relative;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.divider-text span {
+    padding: 7px;
+    font-size: 12px;
+    position: relative;   
+    z-index: 2;
+}
+.divider-text:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    top: 55%;
+    left: 0;
+    z-index: 1;
+}
+
+.btn-facebook {
+    background-color: #405D9D;
+    color: #fff;
+}
+.btn-twitter {
+    background-color: #42AEEC;
+    color: #fff;
+}
+#outer
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+}
+.cssValidation
+{
+        margin-top: -18px;
+}
+</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+<div class="container">
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">Regjistrohu</h4>
+            @*<p class="text-center">Get started with your free account</p>
+            <div id="outer">
+                <div class="inner"><a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter</a></div>
+                <div class="inner"> <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook</a></div>
+            </div>
+            <p class="divider-text">
+                <span class="bg-light">OR</span>
+            </p>*@
+        <form asp-action="Register">
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                </div>
+                <input asp-for="Name" class="form-control" placeholder="Emer" type="text">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group cssValidation">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                </div>
+                <input asp-for="Email" class="form-control" placeholder="Email" type="text">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group cssValidation">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                </div>
+                <select class="custom-select" style="max-width: 120px;">
+                    <option selected="">+355</option>
+                    @*<option value="1">+972</option>
+            <option value="2">+198</option>
+            <option value="3">+701</option>*@
+                </select>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Numer telefoni" type="text">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group cssValidation">
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                </div>
+                <select asp-for="JobType" class="form-control">
+                    <option selected="">Zgjidhni</option>
+                    <option value="1">Bleres me shumice</option>
+                    <option value="2">Shites me shumice</option>
+                </select>
+            </div> <!-- form-group end.// -->
+            <div class="form-group input-group cssValidation">
+                <span asp-validation-for="JobType" class="text-danger"></span>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input asp-for="Password" class="form-control" placeholder="Fjalekalimi" type="password">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group cssValidation">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                </div>
+                <input asp-for="ConfirmationPassword" class="form-control" placeholder="Rishkruaj fjalekalimin" type="password" />
+            </div> <!-- form-group// -->
+            <div class="form-group input-group cssValidation">
+                <span asp-validation-for="ConfirmationPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Krijo llogarine</button>
+            </div> <!-- form-group// -->
+            <p class="text-center">Keni aktualisht nje llogari? <a href="">Hyr</a> </p>
+        </form>
+        </article>
+    </div> <!-- card.// -->
+
+</div>
+<!--container end.//-->

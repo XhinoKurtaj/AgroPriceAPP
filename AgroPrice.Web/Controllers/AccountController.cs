@@ -31,7 +31,7 @@ namespace AgroPrice.Web.Controllers
             {
                 return View(model);
             }
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByEmailAsync(model.Email);
 
             if (user != null)
             {
@@ -58,7 +58,10 @@ namespace AgroPrice.Web.Controllers
                 return View("Register", model);
             }
             var user = new IdentityUser()
-            { UserName = model.UserName };
+            { UserName = model.Name,
+              Email = model.Email,
+              PhoneNumber = model.PhoneNumber
+            };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -67,7 +70,7 @@ namespace AgroPrice.Web.Controllers
             return View(model);
 
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
