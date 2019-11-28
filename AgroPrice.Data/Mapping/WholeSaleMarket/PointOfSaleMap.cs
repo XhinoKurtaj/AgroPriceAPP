@@ -24,8 +24,7 @@ namespace AgroPrice.Data.Mapping.WholeSaleMarket
 
             builder.HasOne(mapping => mapping.User)
                 .WithOne(user => user.PointOfSale)
-                .HasForeignKey<PointOfSale>(mapping => mapping.UserId)
-                .IsRequired();
+                .HasForeignKey<User>(mapping => mapping.PointOfSaleId);
 
             base.Configure(builder);
         }

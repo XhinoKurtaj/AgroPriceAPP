@@ -29,6 +29,10 @@ namespace AgroPrice.Domain.Domain.Product
         /// </summary>
         public DateTime SupplyDate { get; set; }
         /// <summary>
+        /// Gets or sets the ModificationDate
+        /// </summary>
+        public DateTime ModificationDate { get; set; }
+        /// <summary>
         /// Gets or sets the PointOfSaleId
         /// </summary>
         public Guid PointOfSaleId { get; set; }

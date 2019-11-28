@@ -17,11 +17,6 @@ namespace AgroPrice.Domain.Domain.WholeSaleMarket
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the Authentication User Id.
-        /// </summary>
-        public string UserId { get; set; }
-
-        /// <summary>
         /// Gets the Authentication User.
         /// </summary>
         public virtual User.User User { get; protected set; }

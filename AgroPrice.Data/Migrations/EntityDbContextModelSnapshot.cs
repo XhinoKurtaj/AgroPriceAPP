@@ -26,6 +26,9 @@ namespace AgroPrice.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newsequentialid()");
 
+                    b.Property<DateTime>("ModificationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -89,17 +92,10 @@ namespace AgroPrice.Data.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasMaxLength(5000);
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<Guid>("WholeSaleMarketId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.HasIndex("WholeSaleMarketId");
 
@@ -341,6 +337,13 @@ namespace AgroPrice.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<Guid>("PointOfSaleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("PointOfSaleId")
+                        .IsUnique()
+                        .HasFilter("[PointOfSaleId] IS NOT NULL");
+
                     b.HasDiscriminator().HasValue("User");
                 });
 
@@ -364,12 +367,6 @@ namespace AgroPrice.Data.Migrations
 
             modelBuilder.Entity("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", b =>
                 {
-                    b.HasOne("AgroPrice.Domain.Domain.User.User", "User")
-                        .WithOne("PointOfSale")
-                        .HasForeignKey("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AgroPrice.Domain.Domain.WholeSaleMarket.WholeSaleMarket", "WholeSaleMarket")
                         .WithMany("PointOfSales")
                         .HasForeignKey("WholeSaleMarketId")
@@ -424,6 +421,15 @@ namespace AgroPrice.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AgroPrice.Domain.Domain.User.User", b =>
+                {
+                    b.HasOne("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", "PointOfSale")
+                        .WithOne("User")
+                        .HasForeignKey("AgroPrice.Domain.Domain.User.User", "PointOfSaleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
