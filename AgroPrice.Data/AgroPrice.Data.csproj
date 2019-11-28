@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Mapping\" />
+    <Folder Include="Mapping\User\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AgroPrice.Core\AgroPrice.Core.csproj" />
+    <ProjectReference Include="..\AgroPrice.Domain\AgroPrice.Domain.csproj" />
   </ItemGroup>
 
 </Project>
