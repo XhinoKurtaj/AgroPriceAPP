@@ -65,7 +65,12 @@ namespace AgroPrice.Web.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                var loginResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+
+                if (loginResult.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View(model);
 
