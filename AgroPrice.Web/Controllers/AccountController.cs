@@ -44,7 +44,7 @@ namespace AgroPrice.Web.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     if (roles[0]=="Seller")
                     {
-                        User seller = (User) user;
+                        var seller = (User)user;
                         return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id=seller.PointOfSaleId});
                     }
                     return RedirectToAction("Index", "Home");

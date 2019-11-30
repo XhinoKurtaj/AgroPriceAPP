@@ -7,6 +7,7 @@ using AgroPrice.Core.Extensions;
 using AgroPrice.Domain.Domain.Product;
 using AgroPrice.Services.Product;
 using AgroPrice.Services.Product.Models;
+using AgroPrice.Services.WholeSaleMarket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -77,5 +78,6 @@ namespace AgroPrice.Web.Controllers
             }
             return Json(new { success = true });
         }
+
     }
 }

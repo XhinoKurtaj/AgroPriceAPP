@@ -24,5 +24,7 @@ namespace AgroPrice.Services.WholeSaleMarket
         {
             return await _wholeSaleMarket.TableNoTracking.ProjectTo<WholeSaleMarketModel>().ToListAsync();
         }
+        
+        
     }
 }

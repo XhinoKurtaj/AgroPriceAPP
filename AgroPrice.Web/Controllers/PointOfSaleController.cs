@@ -110,7 +110,7 @@ namespace AgroPrice.Web.Controllers
             {
                 if (createUserResult.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "PointOfSale");
                 }
             }
             return View();

@@ -16,10 +16,9 @@ namespace AgroPrice.Services.Account.Models
             RuleFor(model => model.Password).NotEmpty().WithMessage("Ju lutem vendosni passwordin").MinimumLength(8)
                       .MaximumLength(16).WithMessage("Password-i mund te jete nga 8-16 karaktere.");
             RuleFor(model => model.Email).EmailAddress().WithMessage("Ju lutem vendosni si duhet email-in").NotEmpty().WithMessage("Ju lutem vendosni email-in").MaximumLength(255).WithMessage("Email shume i gjate");
-            RuleFor(model => model.JobType).NotEmpty().WithMessage("Ju lutem zgjidhni profesionin tuaj");
+           
             RuleFor(model => model.PhoneNumber).NotEmpty().WithMessage("Ju lutem vendosni numrin e telefonit");
-            RuleFor(model => model.JobType).Must((model, jobType)
-                => ValidJobValue(jobType)).WithMessage("Zgjedhje e gabuar");
+           
             RuleFor(model => model.Password).Must((model, confirmationPassword)
                   => PasswordConfirmation(model.Password, model.ConfirmationPassword)).WithMessage("Fjalekalimi nuk perputhet");
         }
@@ -29,11 +28,5 @@ namespace AgroPrice.Services.Account.Models
             return password == confirmationPassword;
         }
 
-        public bool ValidJobValue(int value)
-        {
-            if (value == 1 || value == 2)
-                return true;
-            return false;
-        }
     }
 }
