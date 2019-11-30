@@ -23,6 +23,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using AgroPrice.Services.Account.Models;
+using AgroPrice.Services.PointOfSale.Models;
 
 namespace AgroPrice.Web
 {
@@ -87,6 +88,7 @@ namespace AgroPrice.Web
             mvcBuilder.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
             services.AddTransient<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
+            services.AddTransient<IValidator<CreateSellerWithPointOfSaleModel>, CreateSellerWithPointOfSaleModelValidator>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

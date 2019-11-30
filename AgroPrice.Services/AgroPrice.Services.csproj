@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AgroPrice.Core\AgroPrice.Core.csproj" />
     <ProjectReference Include="..\AgroPrice.Domain\AgroPrice.Domain.csproj" />
+    <ProjectReference Include="..\AgroPrice.Functional\AgroPrice.Functional.csproj" />
   </ItemGroup>
 
 </Project>

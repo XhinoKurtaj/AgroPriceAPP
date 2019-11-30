@@ -63,15 +63,7 @@ namespace AgroPrice.Web.Controllers
               PhoneNumber = model.PhoneNumber
             };
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (model.JobType == 1)
-            {
-                await _userManager.AddToRoleAsync(user, "Admin");
-            }
-            if (model.JobType==2)
-            {
-                await _userManager.AddToRoleAsync(user, "Seller");
-            }
-
+            await _userManager.AddToRoleAsync(user, "Buyer");
             if (result.Succeeded)
             {
                 var loginResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
