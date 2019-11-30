@@ -9,5 +9,7 @@ namespace AgroPrice.Services.PointOfSale
     public interface IPointOfSaleService
     {
         Task<List<PointOfSaleModel>> GetAllPointOfSale();
+
+        Task<PointOfSaleDetailsModel> PointOfSaleDetails(Guid id);
     }
 }

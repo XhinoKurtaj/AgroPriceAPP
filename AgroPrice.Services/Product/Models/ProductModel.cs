@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using AgroPrice.Core;
-using AgroPrice.Domain.Domain.WholeSaleMarket;
 
-namespace AgroPrice.Domain.Domain.Product
+namespace AgroPrice.Services.Product.Models
 {
     /// <summary>
-    /// Product Entity
+    /// Product Model
     /// </summary>
-    public class Product : BaseEntity
+    public class ProductModel : BaseModel
     {
-        #region Basic Info
         /// <summary>
         /// Gets or sets the Name
         /// </summary>
@@ -39,15 +37,6 @@ namespace AgroPrice.Domain.Domain.Product
         /// <summary>
         /// Gets or sets the PointOfSale
         /// </summary>
-        public virtual PointOfSale PointOfSale { get; set; }
-
-        #endregion
-
-        //#region Related Info
-        ///// <summary>
-        ///// Gets product details.
-        ///// </summary>
-        //public virtual ICollection<ProductDetail> ProductDetails { get; protected set; } = new List<ProductDetail>();
-        //#endregion
+        public virtual Domain.Domain.WholeSaleMarket.PointOfSale PointOfSale { get; set; }
     }
 }

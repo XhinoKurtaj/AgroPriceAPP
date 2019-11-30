@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AgroPrice.Services.PointOfSale.Models;
+using AgroPrice.Services.Product.Models;
 
 namespace AgroPrice.Services
 {
@@ -16,6 +17,9 @@ namespace AgroPrice.Services
 
             CreateMap<Domain.Domain.WholeSaleMarket.PointOfSale, PointOfSaleModel>();
             CreateMap<PointOfSaleModel, Domain.Domain.WholeSaleMarket.PointOfSale>();
+
+            CreateMap<Domain.Domain.Product.Product, ProductModel>();
+            CreateMap<ProductModel, Domain.Domain.Product.Product>();
         }
     }
 }

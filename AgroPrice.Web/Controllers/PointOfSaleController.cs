@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AgroPrice.Core.Data;
+using AgroPrice.Core.Extensions;
 using AgroPrice.Domain.Domain.User;
 using AgroPrice.Domain.Domain.WholeSaleMarket;
 using AgroPrice.Services.PointOfSale;
@@ -15,7 +16,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AgroPrice.Web.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    
     public class PointOfSaleController : Controller
     {
         private readonly IPointOfSaleService _pointOfSaleService;
@@ -42,6 +43,18 @@ namespace AgroPrice.Web.Controllers
             var result = await _pointOfSaleService.GetAllPointOfSale();
             return View(result);
         }
+
+
+        [Authorize(Roles = "Seller,Admin")]
+        [HttpGet]
+        public async Task<IActionResult> PointOfSaleDetails(Guid id)
+        {
+            var model = await _pointOfSaleService.PointOfSaleDetails(id);
+            return View(model);
+        }
+
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> CreateSellerWithPointOfSale()
         {
@@ -54,6 +67,8 @@ namespace AgroPrice.Web.Controllers
             return View(new CreateSellerWithPointOfSaleModel());
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateSellerWithPointOfSale(CreateSellerWithPointOfSaleModel model)
         {

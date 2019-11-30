@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AgroPrice.Domain.Domain.User;
 using AgroPrice.Services.Account.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@ namespace AgroPrice.Web.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private RoleManager<IdentityRole> roleManager;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         [HttpGet]
@@ -31,7 +34,7 @@ namespace AgroPrice.Web.Controllers
             {
                 return View(model);
             }
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            User user =(User)await _userManager.FindByEmailAsync(model.Email);
 
             if (user != null)
             {
@@ -39,6 +42,11 @@ namespace AgroPrice.Web.Controllers
 
                 if (result.Succeeded)
                 {
+                    var roles = await _userManager.GetRolesAsync(user);
+                    if (roles[0]=="Seller")
+                    {
+                        return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id=user.PointOfSaleId});
+                    }
                     return RedirectToAction("Index", "Home");
                 }
             }

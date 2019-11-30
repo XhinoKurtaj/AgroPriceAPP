@@ -31,13 +31,6 @@ namespace AgroPrice.Services.PointOfSale.Models
         public virtual Domain.Domain.WholeSaleMarket.WholeSaleMarket WholeSaleMarket { get; protected set; }
         #endregion
 
-        #region Related Info
-
-        /// <summary>
-        /// Gets the list of products
-        /// </summary>
-        public virtual ICollection<Product> Products { get; protected set; } = new List<Product>();
-
-        #endregion
+       
     }
 }

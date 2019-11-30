@@ -15,8 +15,9 @@ namespace AgroPrice.Data.Mapping.Product
 
             builder.Property(model => model.Name).HasMaxLength(256);
             builder.Property(model => model.Quantity).IsRequired();
+            builder.Property(model => model.Price).IsRequired();
             builder.Property(model => model.Origin).IsRequired().HasMaxLength(256);
-            builder.Property(model => model.SupplyDate).IsRequired();
+            builder.Property(model => model.RegisterDate).IsRequired();
 
             builder.HasOne(model => model.PointOfSale)
                 .WithMany(model => model.Products)
