@@ -1,14 +1,16 @@
 ﻿using AgroPrice.Core;
+using AgroPrice.Domain.Domain.User;
+using AgroPrice.Domain.Domain.WholeSaleMarket;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgroPrice.Domain.Domain.WholeSaleMarket
+namespace AgroPrice.Services.WholeSaleMarket.Models
 {
     /// <summary>
-    /// WholeSaleMarket entity
+    /// WholeSaleMarket model
     /// </summary>
-    public class WholeSaleMarket : BaseEntity
+    public class WholeSaleMarketModel : BaseModel
     {
         #region
         /// <summary>
@@ -31,11 +33,9 @@ namespace AgroPrice.Domain.Domain.WholeSaleMarket
         /// <summary>
         /// Gets the pointOfSales
         /// </summary>
-        public virtual ICollection<PointOfSale> PointOfSales { get; protected set; } = new List<PointOfSale>();
+        public virtual ICollection<Domain.Domain.WholeSaleMarket.PointOfSale> PointOfSales { get; protected set; } = new List<Domain.Domain.WholeSaleMarket.PointOfSale>();
 
 
         #endregion
-
     }
 }
-

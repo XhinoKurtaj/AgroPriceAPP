@@ -1,4 +1,6 @@
 ﻿using AgroPrice.Services.Account;
+using AgroPrice.Services.PointOfSale;
+using AgroPrice.Services.WholeSaleMarket;
 using Autofac;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,10 @@ namespace AgroPrice.Services
         public static void AddServices(this ContainerBuilder builder)
         {
             builder.RegisterType<AccountService>().As<IAccountService>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<WholeSaleMarketService>().As<IWholeSaleMarketService>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<PointOfSaleService>().As<IPointOfSaleService>()
                 .InstancePerLifetimeScope();
         }
     }
