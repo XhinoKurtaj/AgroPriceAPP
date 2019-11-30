@@ -34,8 +34,7 @@ namespace AgroPrice.Web.Controllers
             {
                 return View(model);
             }
-            User user =(User)await _userManager.FindByEmailAsync(model.Email);
-
+            var user =await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
@@ -45,12 +44,13 @@ namespace AgroPrice.Web.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     if (roles[0]=="Seller")
                     {
-                        return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id=user.PointOfSaleId});
+                        User seller = (User) user;
+                        return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id=seller.PointOfSaleId});
                     }
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ModelState.AddModelError("", "User name/password not found!");
+            ModelState.AddModelError("", "Email/Fjalekalim gabim!");
             return View("Login", model);
         }
         [HttpGet]

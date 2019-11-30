@@ -3,30 +3,33 @@
     Layout = null;
 }
 
-    <form asp-action="RegisterProduct" asp-controller="Product" method="POST" class="form-group"
-          data-ajax="true" data-ajax-method="POST" data-ajax-mode="Replace" data-ajax-update="#registerProductBody"
-          data-ajax-complete="completedregisterProduct">
-        <input asp-for="PointOfSaleId" class="form-control" hidden />
-        <input asp-for="Name" class="form-control" hidden />
-        <div class="form-group">
-            <label asp-for="Quantity" class="control-label"></label>
-            <input asp-for="Quantity" class="form-control" />
-            <span asp-validation-for="Quantity" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Price" class="control-label"></label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Origin" class="control-label"></label>
-            <input asp-for="Origin" class="form-control" />
-            <span asp-validation-for="Origin" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
-    </form>
+<form asp-action="RegisterProduct" asp-controller="Product" method="POST" class="form-group"
+      data-ajax="true" data-ajax-method="POST" data-ajax-mode="Replace" data-ajax-update="#registerProductBody"
+      data-ajax-complete="completedregisterProduct">
+    <label asp-for="Name" class="control-label">@Model.Name</label>
+    <hr/>
+
+    <input asp-for="PointOfSaleId" class="form-control" hidden/>
+    <input asp-for="Name" class="form-control" hidden/>
+    <div class="form-group">
+        <label asp-for="Quantity" class="control-label">Sasia</label>
+        <input asp-for="Quantity" class="form-control"/>
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Cmimi</label>
+        <input asp-for="Price" class="form-control"/>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Origin" class="control-label">Origjina</label>
+        <input asp-for="Origin" class="form-control"/>
+        <span asp-validation-for="Origin" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Regjistro" class="btn btn-primary"/>
+    </div>
+</form>
 
 <script>
     completedregisterProduct = function (xhr) {

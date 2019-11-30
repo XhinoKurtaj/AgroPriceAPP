@@ -1,0 +1,38 @@
+﻿@model AgroPrice.Services.Product.Models.EditQuantityModel
+@{
+    Layout = null;
+}
+
+<form asp-action="EditQuantity" asp-controller="Product" method="POST" class="form-group"
+      data-ajax="true" data-ajax-method="POST" data-ajax-mode="Replace" data-ajax-update="#editQuantityBody"
+      data-ajax-complete="completedEditQuantity">
+    <input asp-for="Id" class="form-control" hidden />
+    <div class="form-group">
+        <label asp-for="Quantity" class="control-label">Sasia</label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+<script>
+    completedEditQuantity = function (xhr) {
+        debugger;
+        if (xhr.responseJSON.success) {
+            // hide the modal
+            $('#editQuantity').modal('hide');
+
+            // show an alert to the user
+            Swal.fire({
+                title: 'Success!',
+                text: "Sasia e produktit ndryshoi me sukses!",
+                type: 'success'
+            }).then((result) => {
+                // reload the page
+                location.reload(true);
+            });
+        }
+    };
+</script>
