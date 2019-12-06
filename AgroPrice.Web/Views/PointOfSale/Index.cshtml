@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<AgroPrice.Services.PointOfSale.Models.PointOfSaleModel>
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 <!-- Page level plugin CSS-->
 <link href="~/Content/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
@@ -27,9 +27,7 @@
                 Krijo nje pike shitje
             </div>
             <div class="mr-auto col-lg-8 col-md-6 col-sm-12" style="text-align: end">
-                <a class="btn btn-primary" href="@Url.Action("CreateSellerWithPointOfSale", "PointOfSale")">
-                    Krijo nje pike shitje 
-                </a>
+                <a asp-action="CreateSellerWithPointOfSale" asp-controller="PointOfSale" class="btn btn-primary">Krijo nje pike shitje</a>
             </div>
         </div>
     </div>
@@ -62,7 +60,7 @@
                         <td>@pointOfSale.WholeSaleMarket.Name</td>
                         <td>@pointOfSale.User.UserName</td>
                         <th>
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("Update", "Episode", new{id=pointOfSale.Id})" data-toggle="modal" data-target="#updateEpisode"
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Update", "Episode", new{areasid=pointOfSale.Id})" data-toggle="modal" data-target="#updateEpisode"
                                data-ajax="true" data-ajax-method="GET" data-ajax-mode="Replace" data-ajax-update="#updateEpisodeBody">
                                 <i class="fa fa-edit"></i>
                             </a>

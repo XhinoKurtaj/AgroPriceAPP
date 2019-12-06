@@ -1,0 +1,74 @@
+﻿@model IEnumerable<AgroPrice.Services.PointOfSale.Models.PointOfSaleModel>
+@{
+    ViewData["Title"] = "CreateSellerWithPointOfSale";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Tables</li>
+</ol>
+<!-- DataTables Example -->
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <i class="fas fa-table"></i>
+                Krijo nje pike shitje
+            </div>
+            <div class="mr-auto col-lg-8 col-md-6 col-sm-12" style="text-align: end">
+                <a asp-area="Admin" asp-action="CreateSellerWithPointOfSale" asp-controller="PointOfSale" class="btn btn-primary">Krijo nje pike shitje</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" style="text-align: center" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Pershkrimi</th>
+                        <th>Tregu</th>
+                        <th>Shitesi</th>
+                        <th><i class="fa fa-edit"></i></th>
+                        <th><i class="fa fa-trash"></i></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Pershkrimi</th>
+                        <th>Tregu</th>
+                        <th>Shitesi</th>
+                        <th><i class="fa fa-edit"></i></th>
+                        <th><i class="fa fa-trash"></i></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var pointOfSale in Model)
+                    {
+                        <tr>
+                            <td>@pointOfSale.Description</td>
+                            <td>@pointOfSale.WholeSaleMarket.Name</td>
+                            <td>@pointOfSale.User.UserName</td>
+                            <th>
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("Update", "Episode", new{areasid=pointOfSale.Id})" data-toggle="modal" data-target="#updateEpisode"
+                                   data-ajax="true" data-ajax-method="GET" data-ajax-mode="Replace" data-ajax-update="#updateEpisodeBody">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </th>
+                            <th>
+                                <a class="btn btn-danger remove-episode btn-sm" data-episodeid="@pointOfSale.Id" href="#">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

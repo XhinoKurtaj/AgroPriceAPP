@@ -21,18 +21,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Kreu</a>
                         </li>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Admin
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="WholeSaleMarket" asp-action="Index">Tregje</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="PointOfSale" asp-action="Index">Krijo Pike-Shitje</a>
-                                </div>
-                            </li>
-                        }
 
 
                     </ul>
@@ -46,6 +34,12 @@
                                 <a class="nav-link text-dark" asp-controller="PointOfSale" asp-action="PointOfSaleDetailsWithoutID">Pika Shitjes</a>
                             </li>
                         }
+                        @if (User.IsInRole("Admin"))
+                        {   
+                            <li class="nav-item">
+                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
+                             </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Dil</a>
                         </li>
@@ -58,6 +52,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Regjistrohu</a>
                         </li>
+                        
                     }
                 </ul>
             </div>
