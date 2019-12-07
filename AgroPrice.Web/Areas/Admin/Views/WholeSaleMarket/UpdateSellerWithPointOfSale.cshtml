@@ -1,19 +1,20 @@
-﻿@model AgroPrice.Services.PointOfSale.Models.CreateSellerWithPointOfSaleModel
+﻿@model AgroPrice.Services.PointOfSale.Models.UpdateSellerWithPointOfSaleModel
 
 @{
-    ViewData["Title"] = "CreateSellerWithPointOfSale";
+    ViewData["Title"] = "UpdateSellerWithPointOfSaleAsync";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    var returnUrl = @Context.Request.Query["returnurl"];
 }
 
-    <center>
-        <h1>Krijo nje pike shitje dhe nje shites</h1>
-    </center>
+<center>
+    <h1>Nrysho detajet pikes se shitje shitesit</h1>
+</center>
 <hr />
 <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form asp-action="CreateSellerWithPointOfSale" asp-route-returnurl="@returnUrl">
+        <form asp-action="UpdateSellerWithPointOfSale">
+            <span class="text-danger">@ViewBag.Error</span>
+            <input asp-for="Id" hidden class="form-control" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Emri i shitesit</label>
                 <input asp-for="Name" class="form-control" />
@@ -30,18 +31,8 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label">FjaleKalimi</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmationPassword" class="control-label">Rishkruaj fjaleKalimin</label>
-                <input asp-for="ConfirmationPassword" type="password" class="form-control" />
-                <span asp-validation-for="ConfirmationPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="WholeSaleMarketId" class="control-label">Tregu</label>
-                @Html.DropDownListFor(model => model.WholeSaleMarketId, (IEnumerable<SelectListItem>) ViewBag.WholeSaleMarketDropdown, null, new {@class = "form-control"})
+                @Html.DropDownListFor(model => model.WholeSaleMarketId, (IEnumerable<SelectListItem>)ViewBag.WholeSaleMarketDropdown, null, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label asp-for="PointOfSaleDescription" class="control-label">Pershkrimi i pikes se shitjes</label>

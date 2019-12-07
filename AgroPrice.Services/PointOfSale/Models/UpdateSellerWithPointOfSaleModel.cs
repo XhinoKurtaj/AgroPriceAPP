@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AgroPrice.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace AgroPrice.Services.PointOfSale.Models
 {
-    public class CreateSellerWithPointOfSaleModel
+    public class UpdateSellerWithPointOfSaleModel : BaseModel
     {
         public string Name { get; set; }
 
@@ -18,6 +19,8 @@ namespace AgroPrice.Services.PointOfSale.Models
 
         public string PointOfSaleDescription { get; set; }
 
-        public Guid WholeSaleMarketId { get; set; }
+        public string WholeSaleMarketId { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }
