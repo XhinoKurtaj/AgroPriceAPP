@@ -69,11 +69,15 @@ namespace AgroPrice.Web.Areas.Admin.Controllers
         public async Task<IActionResult> UpdateWholeSaleMarket(Guid id)
         {
             var entity = await _wholeSaleMarket.GetByIdAsync(id);
+            var priceOperator = entity.User;
             var model = new UpdateWholeSaleMarketModel
             {
                 Name = entity.Name,
                 Address = entity.Address,
-                ImageUrl = entity.ImageUrl
+                ImageUrl = entity.ImageUrl,
+                UserName = priceOperator.UserName,
+                Email = priceOperator.Email,
+                PhoneNumber = priceOperator.PhoneNumber
             };
             return View(model);
         }

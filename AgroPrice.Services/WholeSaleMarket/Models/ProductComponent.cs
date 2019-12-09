@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AgroPrice.Core;
 
 namespace AgroPrice.Services.WholeSaleMarket.Models
 {
-    public class ProductComponent
+    public class ProductComponent : BaseModel
     {
         public string Name { get; set; }
 

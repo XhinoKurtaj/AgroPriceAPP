@@ -86,15 +86,28 @@ namespace AgroPrice.Web
                 cfg.AddProfile(typeof(CommandsMapperProfile));
             });
 
-            var mvcBuilder = services.AddMvc().AddFluentValidation(fvc =>
+            var mvcBuilder = services.AddMvc();
+                mvcBuilder.AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
             mvcBuilder.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
             services.AddTransient<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
             services.AddTransient<IValidator<CreateSellerWithPointOfSaleModel>, CreateSellerWithPointOfSaleModelValidator>();
+            services.AddTransient<IValidator<UpdateSellerWithPointOfSaleModel>, UpdateSellerWithPointOfSaleModelValidator>();
             services.AddTransient<IValidator<ProductModel>, ProductModelValidator>();
             services.AddTransient<IValidator<CreateWholeSaleMarketModel>, CreateWholeSaleMarketModelValidator>();
             services.AddTransient<IValidator<UpdateWholeSaleMarketModel>, UpdateWholeSaleMarketModelValidator>();
+            services.AddTransient<IValidator<ChangePasswordModel>, ChangePasswordModelValidator>();
+
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -124,6 +137,7 @@ namespace AgroPrice.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

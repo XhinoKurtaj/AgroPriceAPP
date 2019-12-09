@@ -1,26 +1,50 @@
-﻿@model AgroPrice.Services.WholeSaleMarket.Models.FindProductByWholeSaleMarketModel
+﻿@model IEnumerable<AgroPrice.Services.WholeSaleMarket.Models.ProductComponent>
+@{
+    Layout = null;
+}
 
-<div>
-    <div class="table-responsive">
-        <table class="table table-striped table-sm">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                    <th>Header</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1,001</td>
-                    <td>Lorem</td>
-                    <td>ipsum</td>
-                    <td>dolor</td>
-                    <td>sit</td>
-                </tr>
-            </tbody>
-        </table>
+
+<!-- DataTables Example -->
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <i class="fas fa-table"></i>
+                Produktet
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" style="text-align: center" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Emri</th>
+                        <th>Sasia totale</th>
+                        <th>Cmimi mesatar</th>
+                        <th>Pikat e shitjes</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Emri</th>
+                        <th>Sasia totale</th>
+                        <th>Cmimi mesatar</th>
+                        <th>Pikat e shitjes</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                @foreach (var products in Model)
+                {
+                    <tr>
+                        <td>@products.Name</td>
+                        <td>@products.AmountSum</td>
+                        <td>@products.AvaragePrice</td>
+                        <td><a class="btn btn-primary" href="@Url.Action("SpecificProductOnWholeSaleMarket","WholeSaleMarket",new {wholeSaleMarketId = @products.Id, productName = @products.Name})">Pikat e shitjes</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

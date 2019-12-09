@@ -20,6 +20,9 @@ namespace AgroPrice.Services
 
             CreateMap<Domain.Domain.Product.Product, ProductModel>();
             CreateMap<ProductModel, Domain.Domain.Product.Product>();
+
+            CreateMap<Domain.Domain.Product.Product, ProductInCartModel>();
+            CreateMap<ProductInCartModel, Domain.Domain.Product.Product>();
         }
     }
 }

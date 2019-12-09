@@ -1,0 +1,32 @@
+﻿@model IEnumerable<AgroPrice.Services.Product.Models.ProductInCartModel>
+@{
+    ViewData["Title"] = "SpecificProductOnWholeSaleMarket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Pricing</h1>
+    <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
+</div>
+
+<div class="container">
+    <div class="card-deck mb-3 text-center">
+        @foreach (var product in Model)
+        {
+            <div class="card mb-12 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Origjina: @product.Origin</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">@product.Price <small class="text-muted">/ kg</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Sasia: @product.Quantity kg</li>
+                    </ul>
+                    <a type="button" href="@Url.Action("BookProduct","Cart",new{productId = @product.Id})" class="btn btn-lg btn-block btn-outline-primary">Rezervo</a>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+

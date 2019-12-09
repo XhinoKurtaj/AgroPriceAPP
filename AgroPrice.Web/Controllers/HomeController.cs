@@ -45,7 +45,7 @@ namespace AgroPrice.Web.Controllers
         public async Task<IActionResult> FindProductByWholeSaleMarket(string WholeSaleMarketsID)
         {
             var result = await _productService.FindProductByWholeSaleMarket(WholeSaleMarketsID);
-            return Json(result.Products);
+            return PartialView("Partials/_TodayProducts",result.Products);
         }
 
 

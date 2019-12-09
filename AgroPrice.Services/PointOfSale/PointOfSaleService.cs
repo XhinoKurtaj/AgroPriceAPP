@@ -134,13 +134,15 @@ namespace AgroPrice.Services.PointOfSale
                 user.Email = model.Email;
                 user.PhoneNumber = model.PhoneNumber;
                 user.PointOfSaleId = entity.Id;
-                var createUserResult = await _userManager.UpdateAsync(user);
+                var updatedUserResult = await _userManager.UpdateAsync(user);
+                if (updatedUserResult.Succeeded)
+                    return Result.Ok();
+                else return Result.Fail(null, "Error while updating whole sale market");
             }
             catch
             {
                 return Result.Fail(null, "Error while updating a point of sale and a seller");
             }
-            return Result.Ok();
         }
 
         /// <summary>

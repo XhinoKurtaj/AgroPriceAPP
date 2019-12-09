@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgroPrice.Data.Migrations
 {
     [DbContext(typeof(EntityDbContext))]
-    [Migration("20191209132429_ChangedFromIdentityUserToUserTable")]
-    partial class ChangedFromIdentityUserToUserTable
+    [Migration("20191209141445_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

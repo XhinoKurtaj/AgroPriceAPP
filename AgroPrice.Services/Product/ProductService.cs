@@ -66,6 +66,7 @@ namespace AgroPrice.Services.Product
                 }
                 else
                 {
+                    newProduct.Id = WholeSaleMarketsId;
                     newProduct.AmountSum = thoseProducts.Sum(model=>model.Quantity);
                     newProduct.AvaragePrice = thoseProducts.Average(model => model.Price);
                     list.Add(newProduct);
