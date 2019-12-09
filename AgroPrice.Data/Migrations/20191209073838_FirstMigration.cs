@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AgroPrice.Data.Migrations
 {
-    public partial class CreateDatabase : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -95,7 +95,8 @@ namespace AgroPrice.Data.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
-                    PointOfSaleId = table.Column<Guid>(nullable: true)
+                    PointOfSaleId = table.Column<Guid>(nullable: true),
+                    WholeSaleMarketId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,7 +106,13 @@ namespace AgroPrice.Data.Migrations
                         column: x => x.PointOfSaleId,
                         principalTable: "PointOfSale",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_WholeSaleMarket_WholeSaleMarketId",
+                        column: x => x.WholeSaleMarketId,
+                        principalTable: "WholeSaleMarket",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,9 +122,9 @@ namespace AgroPrice.Data.Migrations
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "newsequentialid()"),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     Quantity = table.Column<int>(nullable: false),
+                    Price = table.Column<int>(nullable: false),
                     Origin = table.Column<string>(maxLength: 256, nullable: false),
-                    SupplyDate = table.Column<DateTime>(nullable: false),
-                    ModificationDate = table.Column<DateTime>(nullable: false),
+                    RegisterDate = table.Column<DateTime>(nullable: false),
                     PointOfSaleId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -216,27 +223,6 @@ namespace AgroPrice.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ProductDetail",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newsequentialid()"),
-                    CurrentPrice = table.Column<decimal>(nullable: false),
-                    CurrentQuantity = table.Column<int>(nullable: false),
-                    ModificationDate = table.Column<DateTime>(nullable: false),
-                    ProductId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProductDetail", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ProductDetail_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -272,6 +258,13 @@ namespace AgroPrice.Data.Migrations
                 filter: "[PointOfSaleId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_WholeSaleMarketId",
+                table: "AspNetUsers",
+                column: "WholeSaleMarketId",
+                unique: true,
+                filter: "[WholeSaleMarketId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -292,11 +285,6 @@ namespace AgroPrice.Data.Migrations
                 name: "IX_Product_PointOfSaleId",
                 table: "Product",
                 column: "PointOfSaleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductDetail_ProductId",
-                table: "ProductDetail",
-                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -317,16 +305,13 @@ namespace AgroPrice.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ProductDetail");
+                name: "Product");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Product");
 
             migrationBuilder.DropTable(
                 name: "PointOfSale");

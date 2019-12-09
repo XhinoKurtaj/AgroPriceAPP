@@ -13,7 +13,7 @@ namespace AgroPrice.Services
     {
         public static void AddServices(this ContainerBuilder builder)
         {
-            builder.RegisterType<AccountService>().As<IAccountService>()
+            builder.RegisterType<UserService>().As<IUserService>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<WholeSaleMarketService>().As<IWholeSaleMarketService>()
                 .InstancePerLifetimeScope();

@@ -35,7 +35,7 @@ namespace AgroPrice.Web.Infrastructure.TagHelpers
             stringBuilder.AppendLine($"\t\t\t<div class='modal-header'>");
             stringBuilder.AppendLine($"\t\t\t\t<div class='card-header card-header-primary text-center' style='width: 100%'>");
             stringBuilder.AppendLine($"\t\t\t\t\t<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>");
-            stringBuilder.AppendLine($"\t\t\t\t\t\t<i class='material-icons'>Mbylle</i>");
+            stringBuilder.AppendLine($"\t\t\t\t\t\t<i class='material-icons'>Mbyll</i>");
             stringBuilder.AppendLine($"\t\t\t\t\t</button>");
             stringBuilder.AppendLine($"\t\t\t\t\t<h4 class='card-title'>{Title}</h4>");
             stringBuilder.AppendLine($"\t\t\t\t</div>");

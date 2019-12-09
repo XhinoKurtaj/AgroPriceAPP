@@ -15,6 +15,7 @@ using Autofac;
 using AutoMapper;
 using AgroPrice.Core;
 using AgroPrice.Core.Extensions;
+using AgroPrice.Domain.Domain.User;
 using Microsoft.AspNetCore.Mvc;
 using AgroPrice.Services;
 using FluentValidation.AspNetCore;

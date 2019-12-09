@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AgroPrice.Core.Data;
 using AgroPrice.Domain.Domain.User;
+using AgroPrice.Domain.Domain.WholeSaleMarket;
 using AgroPrice.Services.Account.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgroPrice.Web.Controllers
 {
@@ -14,12 +17,14 @@ namespace AgroPrice.Web.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private RoleManager<IdentityRole> roleManager;
+        private readonly IRepository<PointOfSale> _pointOfSale;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IRepository<PointOfSale> pointOfSale)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             this.roleManager = roleManager;
+            _pointOfSale = pointOfSale;
         }
 
         [HttpGet]
@@ -44,8 +49,8 @@ namespace AgroPrice.Web.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
                     if (roles[0]=="Seller")
                     {
-                        var seller = (User)user;
-                        return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id=seller.PointOfSaleId});
+                        var thisUser = (Domain.Domain.User.User) user;
+                        return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id=thisUser.PointOfSaleId});
                     }
                     return RedirectToAction("Index", "Home");
                 }

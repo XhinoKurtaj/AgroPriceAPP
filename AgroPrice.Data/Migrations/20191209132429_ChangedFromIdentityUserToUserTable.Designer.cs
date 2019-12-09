@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgroPrice.Data.Migrations
 {
     [DbContext(typeof(EntityDbContext))]
-    [Migration("20191128161527_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20191209132429_ChangedFromIdentityUserToUserTable")]
+    partial class ChangedFromIdentityUserToUserTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,9 +28,6 @@ namespace AgroPrice.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newsequentialid()");
 
-                    b.Property<DateTime>("ModificationDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -43,10 +40,13 @@ namespace AgroPrice.Data.Migrations
                     b.Property<Guid>("PointOfSaleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SupplyDate")
+                    b.Property<DateTime>("RegisterDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -54,32 +54,6 @@ namespace AgroPrice.Data.Migrations
                     b.HasIndex("PointOfSaleId");
 
                     b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("AgroPrice.Domain.Domain.Product.ProductDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("newsequentialid()");
-
-                    b.Property<decimal>("CurrentPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("CurrentQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModificationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductDetail");
                 });
 
             modelBuilder.Entity("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", b =>
@@ -339,12 +313,19 @@ namespace AgroPrice.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<Guid>("PointOfSaleId")
+                    b.Property<Guid?>("PointOfSaleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("WholeSaleMarketId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasIndex("PointOfSaleId")
                         .IsUnique()
                         .HasFilter("[PointOfSaleId] IS NOT NULL");
+
+                    b.HasIndex("WholeSaleMarketId")
+                        .IsUnique()
+                        .HasFilter("[WholeSaleMarketId] IS NOT NULL");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -354,15 +335,6 @@ namespace AgroPrice.Data.Migrations
                     b.HasOne("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", "PointOfSale")
                         .WithMany("Products")
                         .HasForeignKey("PointOfSaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AgroPrice.Domain.Domain.Product.ProductDetail", b =>
-                {
-                    b.HasOne("AgroPrice.Domain.Domain.Product.Product", "Product")
-                        .WithMany("ProductDetails")
-                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -431,9 +403,11 @@ namespace AgroPrice.Data.Migrations
                 {
                     b.HasOne("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", "PointOfSale")
                         .WithOne("User")
-                        .HasForeignKey("AgroPrice.Domain.Domain.User.User", "PointOfSaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AgroPrice.Domain.Domain.User.User", "PointOfSaleId");
+
+                    b.HasOne("AgroPrice.Domain.Domain.WholeSaleMarket.WholeSaleMarket", "WholeSaleMarket")
+                        .WithOne("User")
+                        .HasForeignKey("AgroPrice.Domain.Domain.User.User", "WholeSaleMarketId");
                 });
 #pragma warning restore 612, 618
         }

@@ -311,12 +311,19 @@ namespace AgroPrice.Data.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<Guid>("PointOfSaleId")
+                    b.Property<Guid?>("PointOfSaleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("WholeSaleMarketId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasIndex("PointOfSaleId")
                         .IsUnique()
                         .HasFilter("[PointOfSaleId] IS NOT NULL");
+
+                    b.HasIndex("WholeSaleMarketId")
+                        .IsUnique()
+                        .HasFilter("[WholeSaleMarketId] IS NOT NULL");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -394,9 +401,11 @@ namespace AgroPrice.Data.Migrations
                 {
                     b.HasOne("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", "PointOfSale")
                         .WithOne("User")
-                        .HasForeignKey("AgroPrice.Domain.Domain.User.User", "PointOfSaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AgroPrice.Domain.Domain.User.User", "PointOfSaleId");
+
+                    b.HasOne("AgroPrice.Domain.Domain.WholeSaleMarket.WholeSaleMarket", "WholeSaleMarket")
+                        .WithOne("User")
+                        .HasForeignKey("AgroPrice.Domain.Domain.User.User", "WholeSaleMarketId");
                 });
 #pragma warning restore 612, 618
         }
