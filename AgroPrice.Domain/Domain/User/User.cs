@@ -13,5 +13,8 @@ namespace AgroPrice.Domain.Domain.User
     {
         public Guid PointOfSaleId { get; set; }
         public virtual PointOfSale PointOfSale { get; protected set; }
+
+        public Guid WholeSaleMarketId { get; set; }
+        public virtual WholeSaleMarket.WholeSaleMarket WholeSaleMarket { get; protected set; }
     }
 }

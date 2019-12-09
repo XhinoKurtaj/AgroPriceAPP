@@ -19,6 +19,10 @@ namespace AgroPrice.Data.Mapping.WholeSaleMarket
             builder.Property(model => model.Name).HasMaxLength(256).IsRequired();
             builder.Property(model => model.Address).HasMaxLength(5000).IsRequired();
 
+            builder.HasOne(mapping => mapping.User)
+                .WithOne(user => user.WholeSaleMarket)
+                .HasForeignKey<User>(mapping => mapping.WholeSaleMarketId);
+
             base.Configure(builder);
         }
     }

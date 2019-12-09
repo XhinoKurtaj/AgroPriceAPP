@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using AgroPrice.Services.Account.Models;
 using AgroPrice.Services.PointOfSale.Models;
 using AgroPrice.Services.Product.Models;
+using AgroPrice.Services.WholeSaleMarket.Models;
 
 namespace AgroPrice.Web
 {
@@ -91,6 +92,8 @@ namespace AgroPrice.Web
             services.AddTransient<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
             services.AddTransient<IValidator<CreateSellerWithPointOfSaleModel>, CreateSellerWithPointOfSaleModelValidator>();
             services.AddTransient<IValidator<ProductModel>, ProductModelValidator>();
+            services.AddTransient<IValidator<CreateWholeSaleMarketModel>, CreateWholeSaleMarketModelValidator>();
+            services.AddTransient<IValidator<UpdateWholeSaleMarketModel>, UpdateWholeSaleMarketModelValidator>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

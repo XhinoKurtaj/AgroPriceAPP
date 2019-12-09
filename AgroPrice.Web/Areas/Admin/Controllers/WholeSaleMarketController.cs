@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Sources;
 using AgroPrice.Core.Data;
 using AgroPrice.Core.Extensions;
 using AgroPrice.Domain.Domain.WholeSaleMarket;
@@ -41,6 +42,54 @@ namespace AgroPrice.Web.Areas.Admin.Controllers
         {
             var entity = await _wholeSaleMarket.GetByIdAsync(id);
             var model = entity.ToModel<WholeSaleMarketModel>();
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateWholeSaleMarket()
+        {
+            return View(new CreateWholeSaleMarketModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateWholeSaleMarket(CreateWholeSaleMarketModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var serviceResult = await _wholeSaleMarketService.CreateWholeSaleMarket(model);
+            if (serviceResult.Success)
+                return RedirectToAction("Index", "WholeSaleMarket");
+
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> UpdateWholeSaleMarket(Guid id)
+        {
+            var entity = await _wholeSaleMarket.GetByIdAsync(id);
+            var model = new UpdateWholeSaleMarketModel
+            {
+                Name = entity.Name,
+                Address = entity.Address,
+                ImageUrl = entity.ImageUrl
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateWholeSaleMarket(UpdateWholeSaleMarketModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var serviceResult = await _wholeSaleMarketService.UpdateWholeSaleMarket(model);
+            if (serviceResult.Success)
+                return RedirectToAction("Index", "WholeSaleMarket");
+
             return View(model);
         }
 

@@ -54,5 +54,51 @@ namespace AgroPrice.Services.WholeSaleMarket
             }
             return Result.Ok();
         }
+
+        /// <summary>
+        /// create new whole sale market 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Result> CreateWholeSaleMarket(CreateWholeSaleMarketModel model)
+        {
+            try
+            {
+                var entity = new Domain.Domain.WholeSaleMarket.WholeSaleMarket
+                {
+                    Name = model.Name,
+                    Address = model.Address,
+                    ImageUrl = model.ImageUrl
+                };
+                await _wholeSaleMarket.InsertAsync(entity);
+                return Result.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(null,"Error while creating new whole sale market!");
+            }
+        }
+
+        /// <summary>
+        /// update whole sale market with specific id 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Result> UpdateWholeSaleMarket(UpdateWholeSaleMarketModel model)
+        {
+            try
+            {
+                var entity = await _wholeSaleMarket.GetByIdAsync(model.Id);
+
+                entity.Name = model.Name;
+                entity.Address = model.Address;
+                entity.ImageUrl = model.ImageUrl;
+            
+                await _wholeSaleMarket.UpdateAsync(entity);
+                return Result.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(null, "Error while creating new whole sale market!");
+            }
+        }
     }
 }

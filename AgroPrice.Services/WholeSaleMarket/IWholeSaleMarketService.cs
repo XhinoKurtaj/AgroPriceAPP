@@ -13,5 +13,11 @@ namespace AgroPrice.Services.WholeSaleMarket
         
         //Delete whole sale market
         Task<Result> DeleteWholeSaleMarket(Guid id);
+
+        ///create new whole sale market
+        Task<Result> CreateWholeSaleMarket(CreateWholeSaleMarketModel model);
+        
+        //update whole sale market
+        Task<Result> UpdateWholeSaleMarket(UpdateWholeSaleMarketModel model);
     }
 }

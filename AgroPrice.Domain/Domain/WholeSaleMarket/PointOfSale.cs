@@ -11,6 +11,7 @@ namespace AgroPrice.Domain.Domain.WholeSaleMarket
     public class PointOfSale : BaseEntity
     {
         #region Basic Info
+
         /// <summary>
         /// Gets or sets the Description
         /// </summary>

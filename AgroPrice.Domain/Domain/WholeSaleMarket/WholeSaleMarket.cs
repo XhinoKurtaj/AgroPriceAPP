@@ -24,6 +24,11 @@ namespace AgroPrice.Domain.Domain.WholeSaleMarket
         /// </summary>
         public string ImageUrl { get; set; }
 
+        /// <summary>
+        /// Gets the Authentication User.
+        /// </summary>
+        public virtual User.User User { get; protected set; }
+
         #endregion
 
         #region Related Info

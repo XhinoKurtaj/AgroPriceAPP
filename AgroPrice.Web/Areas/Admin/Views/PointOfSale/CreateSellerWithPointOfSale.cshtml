@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "CreateSellerWithPointOfSale";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    var returnUrl = @Context.Request.Query["returnurl"];
 }
 
     <center>
@@ -13,7 +12,7 @@
 <div class="row" style="margin-bottom: 30px;">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form asp-action="CreateSellerWithPointOfSale" asp-route-returnurl="@returnUrl">
+        <form asp-action="CreateSellerWithPointOfSale">
             <div class="form-group">
                 <label asp-for="Name" class="control-label">Emri i shitesit</label>
                 <input asp-for="Name" class="form-control" />
