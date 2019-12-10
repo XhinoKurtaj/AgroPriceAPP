@@ -50,6 +50,7 @@ namespace AgroPrice.Web.Controllers
                 List<Item> cart = new List<Item>();
                 cart.Add(new Item()
                 {
+                    ItemId = Guid.NewGuid(),
                     Product = _products.GetById(productId).ToModel<ProductInCartModel>(),
                     Quantity = 10
                 });
@@ -59,6 +60,7 @@ namespace AgroPrice.Web.Controllers
             {
                 cartSession.Add(new Item()
                 {
+                    ItemId = Guid.NewGuid(),
                     Product = _products.GetById(productId).ToModel<ProductInCartModel>(),
                     Quantity = 10
                 });
@@ -66,6 +68,36 @@ namespace AgroPrice.Web.Controllers
             }
 
             return RedirectToAction("Index", "Cart");
+        }
+
+        public ActionResult RemoveProduct(Guid itemId)
+        {
+            var cartSession = HttpContext.Session.Get<List<Item>>("Cart");
+            if (cartSession == null)
+            {
+                return RedirectToAction("Index", "Cart");
+            }
+            else
+            {
+                var itemsToSave = new List<Item>();
+                
+                foreach (var item in cartSession)
+                {
+                    if (item.ItemId != itemId)
+                    {
+                        itemsToSave.Add(item);
+                    }
+
+                    if (cartSession.Count == 0)
+                    {
+                        break;
+                    }
+                }
+
+                cartSession = itemsToSave;
+                HttpContext.Session.Set("Cart", cartSession);
+                return RedirectToAction("Index", "Cart");
+            }
         }
     }
 }

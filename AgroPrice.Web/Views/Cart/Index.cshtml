@@ -1,29 +1,40 @@
-﻿@model AgroPrice.Services.Cart.Models.CartIndexModel
+﻿@using AgroPrice.Services.Cart.Models
+@model AgroPrice.Services.Cart.Models.CartIndexModel
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    .StandardTable thead th{
+        background: cornflowerblue!important; 
+        
+    }
+    .StandardTable {
+        background: darkcyan !important;
+        border-color:  cornflowerblue!important;
+        border: 10px !important;
+    }
+</style>
 <div class="row">
     <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-
+       
         <!-- Shopping cart table -->
-        <div class="table-responsive">
-            <table class="table">
+        <div class="table-responsive" >
+            <table class="StandardTable table">
                 <thead>
                     <tr>
                         <th scope="col" class="border-0 bg-light">
-                            <div class="p-2 px-3 text-uppercase">Product</div>
+                            <div class="p-2 px-3 text-uppercase">Produkti</div>
                         </th>
                         <th scope="col" class="border-0 bg-light">
-                            <div class="py-2 text-uppercase">Price</div>
+                            <div class="py-2 text-uppercase">Cmimi</div>
                         </th>
                         <th scope="col" class="border-0 bg-light">
-                            <div class="py-2 text-uppercase">Quantity</div>
+                            <div class="py-2 text-uppercase">Sasia</div>
                         </th>
                         <th scope="col" class="border-0 bg-light">
-                            <div class="py-2 text-uppercase">Remove</div>
+                            <div class="py-2 text-uppercase">Fshij</div>
                         </th>
                     </tr>
                 </thead>
@@ -44,7 +55,7 @@
                                 </th>
                                 <td class="border-0 align-middle"><strong>@product.Product.Price</strong></td>
                                 <td class="border-0 align-middle"><strong>@product.Quantity</strong></td>
-                                <td class="border-0 align-middle"></td>
+                                <td class="border-0 align-middle"><a href="@Url.Action("RemoveProduct","Cart", new {itemId = @product.ItemId })" class="btn btn-danger">Fshij</a></td>
                             </tr>
                         }
                     }
@@ -57,23 +68,23 @@
 
 <div class="row py-5 p-4 bg-white rounded shadow-sm">
     <div class="col-lg-6">
-        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller</div>
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Sugjerime nga ju!</div>
         <div class="p-4">
-            <p class="font-italic mb-4">If you have some information for the seller you can leave them in the box below</p>
+            <p class="font-italic mb-4">Nese deshironi te beni sugjerime per faqen na shkruani ketu</p>
             <textarea name="" cols="30" rows="2" class="form-control"></textarea>
         </div>
     </div>
     <div class="col-lg-6">
-        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+        <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Vlera e shportes</div>
         <div class="p-4">
-            <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
+            <p class="font-italic mb-4">Vlera e peshes dhe kostos se produkteve llogaritur nga shporta</p>
             <ul class="list-unstyled mb-4">
                 <li class="d-flex justify-content-between py-3 border-bottom"><strong class="text-muted">Sasia totale: </strong><strong>@Model.TotalQuantity kg</strong></li>
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Cmimi total</strong>
                     <h5 class="font-weight-bold">@Model.TotalPrice Leke</h5>
                 </li>
-            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Vazhdo rezervimin</a>
+            </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Realizo rezervimin</a>
         </div>
     </div>
 </div>
