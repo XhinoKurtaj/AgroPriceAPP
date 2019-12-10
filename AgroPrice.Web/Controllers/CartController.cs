@@ -7,6 +7,7 @@ using AgroPrice.Core.Data;
 using AgroPrice.Core.Extensions;
 using AgroPrice.Domain.Domain.Product;
 using AgroPrice.Services.Cart.Models;
+using AgroPrice.Services.Mail;
 using AgroPrice.Services.Product.Models;
 using AgroPrice.Web.Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +18,12 @@ namespace AgroPrice.Web.Controllers
     public class CartController : Controller
     {
         private readonly IRepository<Product> _products;
+        private readonly IMailService _mailService;
 
-        public CartController(IRepository<Product> products)
+        public CartController(IRepository<Product> products, IMailService mailService)
         {
             _products = products;
+            _mailService = mailService;
         }
 
         public async Task<IActionResult> Index()
@@ -98,6 +101,14 @@ namespace AgroPrice.Web.Controllers
                 HttpContext.Session.Set("Cart", cartSession);
                 return RedirectToAction("Index", "Cart");
             }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> BookWithEmail()
+        {
+            var cartSession = HttpContext.Session.Get<List<Item>>("Cart");
+            var result = await _mailService.CheckoutMessages(cartSession);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

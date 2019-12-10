@@ -5,6 +5,7 @@ using Autofac;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using AgroPrice.Services.Mail;
 using AgroPrice.Services.Product;
 
 namespace AgroPrice.Services
@@ -20,6 +21,8 @@ namespace AgroPrice.Services
             builder.RegisterType<PointOfSaleService>().As<IPointOfSaleService>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<ProductService>().As<IProductService>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<MailService>().As<IMailService>()
                 .InstancePerLifetimeScope();
         }
     }

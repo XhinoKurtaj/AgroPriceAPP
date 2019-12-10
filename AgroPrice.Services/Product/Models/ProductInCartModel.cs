@@ -23,6 +23,11 @@ namespace AgroPrice.Services.Product.Models
         /// Gets or sets the Origin
         /// </summary>
         public string Origin { get; set; }
-     
+        /// <summary>
+        /// Gets or sets the PointOfSaleId
+        /// </summary>
+        public Guid PointOfSaleId { get; set; }
+        
+
     }
 }
