@@ -52,6 +52,11 @@ namespace AgroPrice.Web.Controllers
                         var thisUser = (Domain.Domain.User.User) user;
                         return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id=thisUser.PointOfSaleId});
                     }
+                    if (roles[0] == "PriceOperator")
+                    {
+                        var thisUser = (Domain.Domain.User.User)user;
+                        return RedirectToAction("PointOfSaleList", "WholeSaleMarket", new { wholeSaleMarketId = thisUser.WholeSaleMarketId});
+                    }
                     return RedirectToAction("Index", "Home");
                 }
             }

@@ -127,5 +127,6 @@ namespace AgroPrice.Services.WholeSaleMarket
                 return Result.Fail(null, "Error while updating whole sale market!");
             }
         }
+
     }
 }

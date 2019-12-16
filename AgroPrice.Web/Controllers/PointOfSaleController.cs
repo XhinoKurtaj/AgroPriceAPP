@@ -44,15 +44,8 @@ namespace AgroPrice.Web.Controllers
             return View(result);
         }
 
-        [Authorize(Roles = "Seller,Admin")]
-        [HttpGet]
-        public async Task<IActionResult> PointOfSaleDetailsWithoutID()
-        {
-            User user =(User) await _userManager.FindByNameAsync(User.Identity.Name);
-            return RedirectToAction("PointOfSaleDetails", "PointOfSale", new {id = user.PointOfSaleId});
-        }
 
-        [Authorize(Roles = "Seller,Admin")]
+        [Authorize(Roles = "Seller,Admin,PriceOperator")]
         [HttpGet]
         public async Task<IActionResult> PointOfSaleDetails(Guid id)
         {
