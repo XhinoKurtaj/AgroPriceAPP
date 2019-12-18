@@ -9,26 +9,83 @@
             <div class="row">
                 <div class="col-md-12 ml-auto mr-auto text-center">
                     <h2 class="title">Tregjet tona</h2>
+                    <button id="abc">Chart</button>
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <span class="bmd-form-group">
                                 <span class="input-group">
-                                    @Html.DropDownList("WholeSaleMarketsID", (IEnumerable<SelectListItem>) ViewBag.WholeSaleMarkets, null, new {@class = "form-control"})
+                                    @Html.DropDownList("WholeSaleMarketsID", (IEnumerable<SelectListItem>)ViewBag.WholeSaleMarkets, null, new { @class = "form-control" })
                                 </span>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <br/>
+            <br />
             <div id="search">
-               
+
+            </div>
+            <div id="chart">
+
             </div>
         </div>
     </div>
 </div>
 
+<canvas id="line-chart" width="800" height="450"></canvas>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
+<script>
+
+    $("#abc").on('click',
+        function() {
+            debugger;
+            new Chart(document.getElementById("line-chart"),
+                {
+                    type: 'line',
+                    data: {
+                        labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
+                        datasets: [
+                            {
+                                data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
+                                label: "Africa",
+                                borderColor: "#3e95cd",
+                                fill: false
+                            }, {
+                                data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267],
+                                label: "Asia",
+                                borderColor: "#8e5ea2",
+                                fill: false
+                            }, {
+                                data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
+                                label: "Europe",
+                                borderColor: "#3cba9f",
+                                fill: false
+                            }, {
+                                data: [40, 20, 10, 16, 24, 38, 74, 167, 508, 784],
+                                label: "Latin America",
+                                borderColor: "#e8c3b9",
+                                fill: false
+                            }, {
+                                data: [6, 3, 2, 2, 7, 26, 82, 172, 312, 433],
+                                label: "North America",
+                                borderColor: "#c45850",
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'World population per region (in millions)'
+                        }
+                    }
+                });
+        });
+
+</script>
 
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
@@ -49,19 +106,20 @@
             debugger;
             var id = $(this).val();
             $.ajax({
-                    url: "/Home/FindProductByWholeSaleMarket",
-                    type: 'POST',
-                    data: { WholeSaleMarketsID: id },
-                    cache: false,
-                    async: true,
-                    dataType: "html",
-                    success: (data) => {
+                url: "/Home/FindProductByWholeSaleMarket",
+                type: 'POST',
+                data: { WholeSaleMarketsID: id },
+                cache: false,
+                async: true,
+                dataType: "html",
+                success: (data) => {
                     debugger;
                     document.getElementById("search").innerHTML = data;
                     //debugger;
-                  
-                    }
+
+                }
             });
+
         })
     </script>
 }

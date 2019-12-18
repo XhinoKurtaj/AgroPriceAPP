@@ -48,6 +48,13 @@ namespace AgroPrice.Web.Controllers
             return PartialView("Partials/_TodayProducts",result.Products);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetChartByWholeSaleMarket(string WholeSaleMarketsID)
+        {
+            var result = await _productService.FindProductByWholeSaleMarket(WholeSaleMarketsID);
+            return PartialView("Partials/_TodayProducts", result.Products);
+        }
+
 
         public IActionResult Privacy()
         {
