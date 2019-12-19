@@ -63,15 +63,37 @@ namespace AgroPrice.Web.Controllers
             }
             else
             {
-                var sumOfProductsWithSameId = cartSession.Where(x => x.Product.Id == productId).Sum(x => x.Quantity);
-                var prod = _products.GetById(productId).ToModel<ProductInCartModel>();
-                var dif = prod.Quantity - sumOfProductsWithSameId;
-                if (dif == 0)
-                    quantity = 0;
-                if (dif <= quantity)
-                    quantity = dif;
-            
-                if (quantity != 0)
+                var productWithSameId = cartSession.FirstOrDefault(x => x.Product.Id == productId);
+                if (productWithSameId != null)
+                {
+                    var quantityInCard = productWithSameId.Quantity; //40
+                    var prod = _products.GetById(productId).ToModel<ProductInCartModel>(); //50
+                    var dif = prod.Quantity - quantityInCard; //50-45
+                    if (quantity <= dif)
+                    {
+                        cartSession.Remove(productWithSameId);
+                        cartSession.Add(new Item()
+                        {
+                            ItemId = Guid.NewGuid(),
+                            Product = _products.GetById(productId).ToModel<ProductInCartModel>(),
+                            Quantity = quantityInCard + quantity
+                        });
+                        HttpContext.Session.Set("Cart", cartSession);
+                    }
+
+                    if (quantity > dif)
+                    {
+                        cartSession.Remove(productWithSameId);
+                        cartSession.Add(new Item()
+                        {
+                            ItemId = Guid.NewGuid(),
+                            Product = _products.GetById(productId).ToModel<ProductInCartModel>(),
+                            Quantity = quantityInCard + dif
+                        });
+                        HttpContext.Session.Set("Cart", cartSession);
+                    }
+                }
+                else
                 {
                     cartSession.Add(new Item()
                     {
@@ -121,7 +143,7 @@ namespace AgroPrice.Web.Controllers
         {
             var cartSession = HttpContext.Session.Get<List<Item>>("Cart");
             var result = await _mailService.CheckoutMessages(cartSession);
-            return RedirectToAction("Index", "Home");
+            return View("BookingSuccessful");
         }
 
         [HttpGet]
