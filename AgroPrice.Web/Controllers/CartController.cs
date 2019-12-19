@@ -142,6 +142,8 @@ namespace AgroPrice.Web.Controllers
         public async Task<ActionResult> BookWithEmail()
         {
             var cartSession = HttpContext.Session.Get<List<Item>>("Cart");
+            List<Item> cart = new List<Item>();
+            HttpContext.Session.Set("Cart", cart);
             var result = await _mailService.CheckoutMessages(cartSession);
             return View("BookingSuccessful");
         }

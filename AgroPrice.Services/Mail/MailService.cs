@@ -73,7 +73,7 @@ namespace AgroPrice.Services.Mail
             var from = new EmailAddress(_configuration.GetSection("SenderEmail").Value,
                 _configuration.GetSection("SenderName").Value);
             var to = new EmailAddress("ton.driza@gmail.com", firstName);
-            var subject = "New Payment Verification Email from PodcastExpertNetwork.com";
+            var subject = "AgroPrice.com";
             var content = message;
 
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content.Type, content.Value);
