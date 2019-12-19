@@ -1,0 +1,59 @@
+﻿@model AgroPrice.Services.Cart.Models.BookProductModel
+@{
+    Layout = null;
+}
+
+    <form asp-action="ValidateProductQuantity" asp-controller="Cart" method="POST" class="form-group"
+          data-ajax="true" data-ajax-method="POST" data-ajax-mode="Replace" data-ajax-update="#chooseQuantityBody"
+          data-ajax-complete="completedChooseQuantity">
+        <input asp-for="Id" class="form-control" hidden />
+        <input asp-for="SaleQuantity" class="form-control" hidden />
+        <div class="form-group">
+            <label asp-for="BookQuantity" class="control-label">Vendos sasine</label>
+            <input asp-for="BookQuantity" id="bookQuantity"  class="form-control" />
+            <span asp-validation-for="BookQuantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Rezervo" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <script>
+
+    completedChooseQuantity = function (xhr) {
+        debugger;
+        if (xhr.responseJSON.success) {
+            var quantityy = xhr.responseJSON.quantity;
+            // hide the modal
+            $('#chooseQuantity').modal('hide');
+            // show an alert to the user
+            Swal.fire({
+                title: 'Sukses!',
+                text: "Produkti u shtua ne shporte!",
+                type: 'success'
+            }).then((result) => {
+                debugger;
+                if (result.value) {
+                    debugger;
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("BookProduct", "Cart")',
+                        data:  { productId: '@Model.Id', quantity: quantityy},
+                        async: true,
+                        success: function(response){
+                            //if request if made successfully then the response represent the data
+                        }
+                    });
+                };
+
+            });
+        } else {
+            Swal.fire({
+                title: 'Gabim!',
+                text: "Shtimi ne shporte i produktit deshtoi!",
+                type: 'error'
+            });
+        }
+    };
+    </script>

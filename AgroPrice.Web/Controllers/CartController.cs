@@ -26,6 +26,7 @@ namespace AgroPrice.Web.Controllers
             _mailService = mailService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var model = new CartIndexModel();
@@ -42,10 +43,11 @@ namespace AgroPrice.Web.Controllers
                 }
             }
 
-            return View(model);
+            return View("Index",model);
         }
 
-        public IActionResult BookProduct(Guid productId, int quantity)
+        [HttpPost]
+        public async Task<IActionResult> BookProduct(Guid productId, int quantity)
         {
             var cartSession = HttpContext.Session.Get<List<Item>>("Cart");
             if (cartSession == null)
@@ -55,25 +57,36 @@ namespace AgroPrice.Web.Controllers
                 {
                     ItemId = Guid.NewGuid(),
                     Product = _products.GetById(productId).ToModel<ProductInCartModel>(),
-                    Quantity = 10
+                    Quantity = quantity
                 });
                 HttpContext.Session.Set("Cart", cart);
             }
             else
             {
-                cartSession.Add(new Item()
+                var sumOfProductsWithSameId = cartSession.Where(x => x.Product.Id == productId).Sum(x => x.Quantity);
+                var prod = _products.GetById(productId).ToModel<ProductInCartModel>();
+                var dif = prod.Quantity - sumOfProductsWithSameId;
+                if (dif == 0)
+                    quantity = 0;
+                if (dif <= quantity)
+                    quantity = dif;
+            
+                if (quantity != 0)
                 {
-                    ItemId = Guid.NewGuid(),
-                    Product = _products.GetById(productId).ToModel<ProductInCartModel>(),
-                    Quantity = 10
-                });
-                HttpContext.Session.Set("Cart", cartSession);
+                    cartSession.Add(new Item()
+                    {
+                        ItemId = Guid.NewGuid(),
+                        Product = _products.GetById(productId).ToModel<ProductInCartModel>(),
+                        Quantity = quantity
+                    });
+                    HttpContext.Session.Set("Cart", cartSession);
+                }
             }
 
             return RedirectToAction("Index", "Cart");
         }
 
-        public ActionResult RemoveProduct(Guid itemId)
+        public async Task<ActionResult> RemoveProduct(Guid itemId)
         {
             var cartSession = HttpContext.Session.Get<List<Item>>("Cart");
             if (cartSession == null)
@@ -118,9 +131,20 @@ namespace AgroPrice.Web.Controllers
             var model = new BookProductModel();
             model.Id = productId;
             model.SaleQuantity = product.Quantity;
-            return View()
+            return PartialView("Partials/_ChooseQuantity", model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> ValidateProductQuantity(BookProductModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return PartialView("Partials/_ChooseQuantity", model);
+            }
+
+            return Json(new {success = true, quantity=model.BookQuantity });
+            //return RedirectToAction("BookProduct", "Cart", new { productId = model.Id, quantity = model.BookQuantity});
         }
 
-        
+
     }
 }

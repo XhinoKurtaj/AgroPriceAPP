@@ -23,10 +23,9 @@
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>Sasia: @product.Quantity kg</li>
                     </ul>
-                    <a type="button" href="@Url.Action("BookProduct","Cart",new{productId = @product.Id})" class="btn btn-lg btn-block btn-outline-success">Rezervo</a>
-                    <a class="text-primary" href="@Url.Action("ValidateProductQuantity", "Cart", new {productId = @product.Id})" data-toggle="modal" data-target="#changePassword"
-                       data-ajax="true" data-ajax-method="GET" data-ajax-mode="Replace" data-ajax-update="#changePasswordBody">
-                        <i class="fa fa-key"></i>
+                    <a class="btn btn-lg btn-block btn-outline-success" href="@Url.Action("ValidateProductQuantity", "Cart", new {productId = @product.Id})" data-toggle="modal" data-target="#chooseQuantity"
+                       data-ajax="true" data-ajax-method="GET" data-ajax-mode="Replace" data-ajax-update="#chooseQuantityBody">
+                       Rezervo
                     </a>
                 </div>
             </div>
@@ -37,7 +36,9 @@
 
 @section Modals
 {
-    <modal id="chooseQuantity" title="Vendos sasine"></modal>
+    <modal id="chooseQuantity" title="Rezervo"></modal>
 }
-@se
-
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
+}

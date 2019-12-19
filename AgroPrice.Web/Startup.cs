@@ -24,6 +24,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using AgroPrice.Services.Account.Models;
+using AgroPrice.Services.Cart.Models;
 using AgroPrice.Services.PointOfSale.Models;
 using AgroPrice.Services.Product.Models;
 using AgroPrice.Services.WholeSaleMarket.Models;
@@ -98,6 +99,7 @@ namespace AgroPrice.Web
             services.AddTransient<IValidator<CreateWholeSaleMarketModel>, CreateWholeSaleMarketModelValidator>();
             services.AddTransient<IValidator<UpdateWholeSaleMarketModel>, UpdateWholeSaleMarketModelValidator>();
             services.AddTransient<IValidator<ChangePasswordModel>, ChangePasswordModelValidator>();
+            services.AddTransient<IValidator<BookProductModel>, BookProductModelValidator>();
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
