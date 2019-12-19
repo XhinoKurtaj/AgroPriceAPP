@@ -66,6 +66,8 @@ namespace AgroPrice.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(Services.Account.Models.ChangePasswordModel model)
         {
+            if(!ModelState.IsValid)
+                return PartialView("Partials/_ChangePassword", model);
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
             var token = await _userManager.RemovePasswordAsync(user);
             var result = await _userManager.AddPasswordAsync(user, model.Password);
