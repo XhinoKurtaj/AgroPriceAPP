@@ -12,5 +12,8 @@ namespace AgroPrice.Services.Product
     {
         Task<Result> RegisterProduct(ProductModel model);
         Task<FindProductByWholeSaleMarketModel> FindProductByWholeSaleMarket(string WholeSaleMarketsID);
+
+        Task<GetProductListByDateAndWholeSaleMarketModel> GetProductListByDateAndWholeSaleMarket(
+            string WholeSaleMarketsID, DateTime startDate, DateTime endDate);
     }
 }

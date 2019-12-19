@@ -1,6 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using AgroPrice.Core.Data;
 using AgroPrice.Domain.Domain.Product;
 using AgroPrice.Domain.Domain.WholeSaleMarket;
@@ -8,12 +11,12 @@ using AgroPrice.Services.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AgroPrice.Web.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
+using SelectListItem = Microsoft.AspNetCore.Mvc.Rendering.SelectListItem;
 
 namespace AgroPrice.Web.Controllers
 {
-    [Authorize]
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -41,18 +44,22 @@ namespace AgroPrice.Web.Controllers
         }
 
 
-        [HttpPost]
+
+
+        [Microsoft.AspNetCore.Mvc.HttpPost]
         public async Task<IActionResult> FindProductByWholeSaleMarket(string WholeSaleMarketsID)
         {
             var result = await _productService.FindProductByWholeSaleMarket(WholeSaleMarketsID);
             return PartialView("Partials/_TodayProducts",result.Products);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetChartByWholeSaleMarket(string WholeSaleMarketsID)
+
+
+        [Microsoft.AspNetCore.Mvc.HttpPost]
+        public async Task<IActionResult> GetProductListByDateAndWholeSaleMarket(string wholeSaleMarketsID , DateTime startDate , DateTime endDate)
         {
-            var result = await _productService.FindProductByWholeSaleMarket(WholeSaleMarketsID);
-            return PartialView("Partials/_TodayProducts", result.Products);
+            var result = await _productService.GetProductListByDateAndWholeSaleMarket(wholeSaleMarketsID,startDate,endDate);
+            return Json(new {result = result});
         }
 
 

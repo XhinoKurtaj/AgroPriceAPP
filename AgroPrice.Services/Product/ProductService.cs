@@ -77,5 +77,42 @@ namespace AgroPrice.Services.Product
             model.Products = list;
             return model;
         }
+
+        public async Task<GetProductListByDateAndWholeSaleMarketModel> GetProductListByDateAndWholeSaleMarket(string WholeSaleMarketsID, DateTime startDate, DateTime endDate)
+        {
+
+            var model = new FindProductByWholeSaleMarketModel();
+                var WholeSaleMarketsId = new Guid(WholeSaleMarketsID);
+                var productListInTimeInterval = _product.TableNoTracking.Where(x =>
+                    x.RegisterDate.Date > startDate && x.RegisterDate.Date < endDate);
+                var productOfThisWholeSaleMarket = productListInTimeInterval
+                    .Where(x => x.PointOfSale.WholeSaleMarketId == WholeSaleMarketsId);
+                var list = new GetProductListByDateAndWholeSaleMarketModel();
+                list.Product = new List<string>();
+                list.DateTimeList = new List<List<DateTime>>();
+                list.PriceList = new List<List<decimal>>();
+                foreach (var productName in Products.ProductNames)
+                {
+                    list.Product.Add(productName);
+                    var dateTime = new List<DateTime>();
+                    var price = new List<decimal>();
+                    var date = startDate;
+                    while (date <= endDate)
+                    {
+                        var productInSpecificDate = productOfThisWholeSaleMarket.FirstOrDefault(x =>
+                            x.Name == productName && x.RegisterDate.Date == date.Date);
+                        var spePrice = productInSpecificDate == null ? 0 : productInSpecificDate.Price;
+                        price.Add(spePrice);
+                        dateTime.Add(date);
+                        date = date.AddDays(1);
+                    }
+
+                    list.DateTimeList.Add(dateTime);
+                    list.PriceList.Add(price);
+                }
+
+                return list;
+            
+        }
     }
 }

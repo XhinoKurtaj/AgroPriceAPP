@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "The Price Trend Page";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+
+<div class="cd-section">
+    <div class="team-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ml-auto mr-auto text-center">
+                    <h2 class="title">Tregjet tona</h2>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <span class="bmd-form-group">
+                                <span class="input-group">
+                                    @Html.DropDownList("WholeSaleMarketsID", (IEnumerable<SelectListItem>)ViewBag.WholeSaleMarkets, null, new { @class = "form-control _wholeSaleMarketID" })
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <input class="form-control" type="date" id="startDate" />
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <input class="form-control" type="date" id="endDate" />
+                        </div>
+                        <div class="col-lg-2 col-md-2">
+                            <button class="form-control btn-primary" id="filterByDate">Llogarit</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div id="chart">
+                <canvas id="line-chart" width="800" height="450"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Content/vendor/jquery/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js" integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script>
+        $("#filterByDate").on("click", function () {
+            var startDate = $("#startDate").val();
+            var endDate = $("#endDate").val();
+            var id = $("._wholeSaleMarketID").val();
+            debugger;
+            $.ajax({
+                url: "/ThePriceTrend/GetProductListByDateAndWholeSaleMarket",
+                type: 'POST',
+                data: { wholeSaleMarketsID: id, startDate: startDate, endDate: endDate },
+                success: (result) => {
+                    debugger;
+                    $(document).ready(() => {
+                        new Chart(document.getElementById("line-chart"),
+                            {
+                                type: 'line',
+                                data: {
+                                    labels: result.result.dateTimeList[0],
+                                    datasets: [
+                                        {
+                                            data: result.result.priceList[0],
+                                            label: result.result.product[0],
+                                            borderColor: "#DAA520",
+                                            fill: false
+                                        }, {
+                                            data: result.result.priceList[1],
+                                            label: result.result.product[1],
+                                            borderColor: "#228B22",
+                                            fill: false
+                                        }
+                                        , {
+                                            data: result.result.priceList[2],
+                                            label: result.result.product[2],
+                                            borderColor: "#0000FF",
+                                            fill: false
+                                        }
+                                        , {
+                                            data: result.result.priceList[3],
+                                            label: result.result.product[3],
+                                            borderColor: "#C71585",
+                                            fill: false
+                                        }
+                                        , {
+                                            data: result.result.priceList[4],
+                                            label: result.result.product[4],
+                                            borderColor: "#2F4F4F",
+                                            fill: false
+                                        }
+                                        , {
+                                            data: result.result.priceList[5],
+                                            label: result.result.product[5],
+                                            borderColor: "#FF0000",
+                                            fill: false
+                                        }
+                                        , {
+                                            data: result.result.priceList[6],
+                                            label: result.result.product[6],
+                                            borderColor: "#BDB76B",
+                                            fill: false
+                                        }
+                                        , {
+                                            data: result.result.priceList[7],
+                                            label: result.result.product[7],
+                                            borderColor: "#FF4500",
+                                            fill: false
+                                        }, {
+                                            data: result.result.priceList[8],
+                                            label: result.result.product[8],
+                                            borderColor: "#FFFF00",
+                                            fill: false
+                                        }
+
+                                    ]
+                                },
+                                options: {
+                                    title: {
+                                        display: true,
+                                        text: 'Trendi i cmimeve ne harkun kohor nga ( ' + startDate + ' ) deri ne ( '+endDate+' )'
+                                    }
+                                }
+                            });
+                    });
+
+                }
+            });
+        })
+
+    </script>
+}

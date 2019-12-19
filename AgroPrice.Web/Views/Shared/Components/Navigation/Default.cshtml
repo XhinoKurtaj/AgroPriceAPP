@@ -11,7 +11,9 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Kreu</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="ThePriceTrend" asp-action="Index">Trendi i cmimeve</a>
+                </li>
 
             </ul>
         </div>
@@ -21,7 +23,7 @@
                 @if (User.IsInRole("Seller"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="PointOfSale" asp-action="PointOfSaleDetails" asp-route-id ="@Model.User.PointOfSaleId">Pika Shitjes</a>
+                        <a class="nav-link text-dark" asp-controller="PointOfSale" asp-action="PointOfSaleDetails" asp-route-id="@Model.User.PointOfSaleId">Pika Shitjes</a>
                     </li>
                 }
                 @if (User.IsInRole("Admin"))
@@ -43,7 +45,7 @@
                     </li>
                 }
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout" >Dil</a>
+                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Dil</a>
                 </li>
             }
             else
