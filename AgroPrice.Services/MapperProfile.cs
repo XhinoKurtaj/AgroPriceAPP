@@ -21,7 +21,8 @@ namespace AgroPrice.Services
             CreateMap<Domain.Domain.Product.Product, ProductModel>();
             CreateMap<ProductModel, Domain.Domain.Product.Product>();
 
-            CreateMap<Domain.Domain.Product.Product, ProductInCartModel>();
+            CreateMap<Domain.Domain.Product.Product, ProductInCartModel>()
+                .ForMember(m => m.PointOfSaleName, o => o.MapFrom(v => v.PointOfSale.Description));
             CreateMap<ProductInCartModel, Domain.Domain.Product.Product>();
         }
     }

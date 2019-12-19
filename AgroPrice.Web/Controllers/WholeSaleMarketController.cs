@@ -60,15 +60,6 @@ namespace AgroPrice.Web.Controllers
             return View(listOfPointOfSales);
         }
 
-        //[HttpGet]
-        //[Authorize(Roles = "PriceOperator")]
-        //public async Task<IActionResult> PointOfSaleListWithoufId()
-        //{
-        //    var listOfPointOfSales = await _pointOfSale.TableNoTracking
-        //        .Where(x => x.WholeSaleMarketId == user.WholeSaleMarketId).ProjectTo<PointOfSaleModel>().ToListAsync();
-
-        //    return View(listOfPointOfSales);
-        //}
 
     }
 }

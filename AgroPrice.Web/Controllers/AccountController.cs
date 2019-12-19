@@ -97,6 +97,7 @@ namespace AgroPrice.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
+            HttpContext.Session.Remove("Cart");
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }

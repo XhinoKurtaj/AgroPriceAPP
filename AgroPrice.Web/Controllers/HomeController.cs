@@ -16,7 +16,7 @@ using SelectListItem = Microsoft.AspNetCore.Mvc.Rendering.SelectListItem;
 
 namespace AgroPrice.Web.Controllers
 {
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -52,16 +52,6 @@ namespace AgroPrice.Web.Controllers
             var result = await _productService.FindProductByWholeSaleMarket(WholeSaleMarketsID);
             return PartialView("Partials/_TodayProducts",result.Products);
         }
-
-
-
-        [Microsoft.AspNetCore.Mvc.HttpPost]
-        public async Task<IActionResult> GetProductListByDateAndWholeSaleMarket(string wholeSaleMarketsID , DateTime startDate , DateTime endDate)
-        {
-            var result = await _productService.GetProductListByDateAndWholeSaleMarket(wholeSaleMarketsID,startDate,endDate);
-            return Json(new {result = result});
-        }
-
 
         public IActionResult Privacy()
         {

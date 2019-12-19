@@ -1,7 +1,12 @@
 ﻿@model AgroPrice.Services.Account.Models.NavigationViewModel
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<style>
+    .tagAColor {
+        color: aquamarine!important;
+    }
+</style>
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-green border-bottom box-shadow mb-3" style="background-color: green;">
     <div class="container">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AgroPrice</a>
+        <a class="navbar-brand tagAColor" asp-area="" asp-controller="Home" asp-action="Index">AgroPrice</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,10 +14,10 @@
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Kreu</a>
+                    <a class="nav-link tagAColor" asp-area="" asp-controller="Home" asp-action="Index">Kreu</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="ThePriceTrend" asp-action="Index">Trendi i cmimeve</a>
+                    <a class="nav-link tagAColor" asp-controller="ThePriceTrend" asp-action="Index">Trendi i cmimeve</a>
                 </li>
 
             </ul>
@@ -23,38 +28,38 @@
                 @if (User.IsInRole("Seller"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="PointOfSale" asp-action="PointOfSaleDetails" asp-route-id="@Model.User.PointOfSaleId">Pika Shitjes</a>
+                        <a class="nav-link tagAColor" asp-controller="PointOfSale" asp-action="PointOfSaleDetails" asp-route-id="@Model.User.PointOfSaleId">Pika Shitjes</a>
                     </li>
                 }
                 @if (User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
+                        <a class="nav-link tagAColor" asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
                     </li>
                 }
                 @if (User.IsInRole("Buyer"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Shporta ime</a>
+                        <a class="nav-link tagAColor" asp-area="" asp-controller="Cart" asp-action="Index">Shporta ime</a>
                     </li>
                 }
                 @if (User.IsInRole("PriceOperator"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="WholeSaleMarket" asp-action="PointOfSaleList" asp-route-wholeSaleMarketId="@Model.User.WholeSaleMarketId">Pikat e shitjes</a>
+                        <a class="nav-link tagAColor" asp-area="" asp-controller="WholeSaleMarket" asp-action="PointOfSaleList" asp-route-wholeSaleMarketId="@Model.User.WholeSaleMarketId">Pikat e shitjes</a>
                     </li>
                 }
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Dil</a>
+                    <a class="nav-link tagAColor" asp-controller="Account" asp-action="Logout">Dil</a>
                 </li>
             }
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Hyr</a>
+                    <a class="nav-link tagAColor" asp-controller="Account" asp-action="Login">Hyr</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Regjistrohu</a>
+                    <a class="nav-link tagAColor" asp-controller="Account" asp-action="Register">Regjistrohu</a>
                 </li>
 
             }

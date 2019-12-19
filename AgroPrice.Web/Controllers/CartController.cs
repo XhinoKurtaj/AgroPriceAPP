@@ -110,5 +110,17 @@ namespace AgroPrice.Web.Controllers
             var result = await _mailService.CheckoutMessages(cartSession);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<ActionResult> ValidateProductQuantity(Guid productId)
+        {
+            var product = await _products.GetByIdAsync(productId);
+            var model = new BookProductModel();
+            model.Id = productId;
+            model.SaleQuantity = product.Quantity;
+            return View()
+        }
+
+        
     }
 }

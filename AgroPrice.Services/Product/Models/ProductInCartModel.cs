@@ -27,7 +27,9 @@ namespace AgroPrice.Services.Product.Models
         /// Gets or sets the PointOfSaleId
         /// </summary>
         public Guid PointOfSaleId { get; set; }
-        
+
+        public string PointOfSaleName { get; set;}
+
 
     }
 }
