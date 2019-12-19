@@ -10,13 +10,19 @@
     @foreach (var pointOfSale in Model)
     {
         <div class="row">
-            
-                <div class="col-lg-12" style="background-color: beige;margin-bottom: 20px;">
-                    <h2>Shitesi: @pointOfSale.User.UserName</h2>
-                    <p>@pointOfSale.Description</p>
-                    <p><a class="btn btn-secondary" href="@Url.Action("PointOfSaleDetails","PointOfSale", new { id=@pointOfSale.Id})" role="button">View details »</a></p>
-                </div><!-- /.col-lg-4 -->
-          
+
+            <div class="col-lg-12" style="background-color: beige; margin-bottom: 20px;">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>Shitesi: @pointOfSale.User.UserName</h2>
+                        <p>@pointOfSale.Description</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p><a class="btn btn-secondary" style="margin-left: 240px;margin-top: 22px;" href="@Url.Action("PointOfSaleDetails", "PointOfSale", new {id = @pointOfSale.Id})" role="button">Regjistro produktet »</a></p>
+                    </div>
+                </div>
+            </div><!-- /.col-lg-4 -->
+
         </div><!-- /.row -->
     }
         <!-- START THE FEATURETTES -->
