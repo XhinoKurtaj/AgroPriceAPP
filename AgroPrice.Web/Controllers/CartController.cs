@@ -154,7 +154,7 @@ namespace AgroPrice.Web.Controllers
             var product = await _products.GetByIdAsync(productId);
             var model = new BookProductModel();
             model.Id = productId;
-            model.SaleQuantity = product.Quantity;
+            //model.SaleQuantity = product.Quantity;
             return PartialView("Partials/_ChooseQuantity", model);
         }
         [HttpPost]

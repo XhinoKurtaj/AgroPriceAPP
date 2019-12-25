@@ -19,9 +19,9 @@ namespace AgroPrice.Services.Cart.Models
         public bool ValidQuantity(Guid id, decimal quantity)
         {
             var product = _products.GetByIdAsync(id);
-            var saleQuantity = product.Result.Quantity;
-
-            return ((quantity>0)&&(quantity<=saleQuantity));
+            //var saleQuantity = product.Result.Quantity;
+            return true; //TODO
+            //return ((quantity>0)&&(quantity<=saleQuantity));
         }
     }
 }

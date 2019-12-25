@@ -59,7 +59,7 @@ namespace AgroPrice.Web.Controllers
             var model = new EditQuantityModel
             {
                 Id = id,
-                Quantity = entity.Quantity
+                //Quantity = entity.Quantity
             };
             return PartialView("_Partials/_EditQuantity", model);
         }
@@ -69,7 +69,7 @@ namespace AgroPrice.Web.Controllers
             try
             {
                 var entity = await _product.GetByIdAsync(model.Id);
-                entity.Quantity = model.Quantity;
+                //entity.Quantity = model.Quantity;
                 await _product.UpdateAsync(entity);
             }
             catch

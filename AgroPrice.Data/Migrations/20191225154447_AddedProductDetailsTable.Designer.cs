@@ -4,14 +4,16 @@ using AgroPrice.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AgroPrice.Data.Migrations
 {
     [DbContext(typeof(EntityDbContext))]
-    partial class EntityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191225154447_AddedProductDetailsTable")]
+    partial class AddedProductDetailsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,30 +50,30 @@ namespace AgroPrice.Data.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("AgroPrice.Domain.Domain.Product.ProductDetails", b =>
+            modelBuilder.Entity("AgroPrice.Domain.Domain.Product.ProductDetail", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newsequentialid()");
 
+                    b.Property<decimal>("CurrentPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CurrentQuantity")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductDetails");
+                    b.ToTable("ProductDetail");
                 });
 
             modelBuilder.Entity("AgroPrice.Domain.Domain.WholeSaleMarket.PointOfSale", b =>
@@ -357,7 +359,7 @@ namespace AgroPrice.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AgroPrice.Domain.Domain.Product.ProductDetails", b =>
+            modelBuilder.Entity("AgroPrice.Domain.Domain.Product.ProductDetail", b =>
                 {
                     b.HasOne("AgroPrice.Domain.Domain.Product.Product", "Product")
                         .WithMany("ProductDetails")
