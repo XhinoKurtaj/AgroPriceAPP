@@ -91,15 +91,9 @@ namespace AgroPrice.Web
                 mvcBuilder.AddFluentValidation(fvc =>
                 fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
             mvcBuilder.SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
-            services.AddTransient<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
-            services.AddTransient<IValidator<CreateSellerWithPointOfSaleModel>, CreateSellerWithPointOfSaleModelValidator>();
-            services.AddTransient<IValidator<UpdateSellerWithPointOfSaleModel>, UpdateSellerWithPointOfSaleModelValidator>();
-            services.AddTransient<IValidator<ProductModel>, ProductModelValidator>();
-            services.AddTransient<IValidator<CreateWholeSaleMarketModel>, CreateWholeSaleMarketModelValidator>();
-            services.AddTransient<IValidator<UpdateWholeSaleMarketModel>, UpdateWholeSaleMarketModelValidator>();
-            services.AddTransient<IValidator<ChangePasswordModel>, ChangePasswordModelValidator>();
-            services.AddTransient<IValidator<BookProductModel>, BookProductModelValidator>();
+
+            //register all validators
+            RegisterValidators.RegisterAllValidators(services);
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
