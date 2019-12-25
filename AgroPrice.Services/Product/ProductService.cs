@@ -126,5 +126,26 @@ namespace AgroPrice.Services.Product
                 return list;
             
         }
+
+        public async Task<Result> RegisterProductDetails(EditQuantityModel model)
+        {
+            try
+            {
+                var entity = new ProductDetails()
+                {
+                    Price = model.Price,
+                    Quantity = model.Quantity,
+                    ProductId = model.Id,
+                    ModificationDate = DateTime.Now
+                };
+                await _productDetails.InsertAsync(entity);
+            }
+            catch(Exception ex)
+            {
+                return Result.Fail("Register Product Details", ex.ToString());
+            }
+
+            return Result.Ok();
+        }
     }
 }

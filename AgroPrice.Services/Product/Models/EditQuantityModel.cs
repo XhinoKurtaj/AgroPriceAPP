@@ -11,5 +11,9 @@ namespace AgroPrice.Services.Product.Models
         /// Gets or sets the Quantity
         /// </summary>
         public int Quantity { get; set; }
+        /// <summary>
+        /// Gets or sets the Price
+        /// </summary>
+        public decimal Price { get; set; }
     }
 }

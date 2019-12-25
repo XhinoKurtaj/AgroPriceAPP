@@ -10,6 +10,7 @@ using AgroPrice.Services.Product.Models;
 using AgroPrice.Services.WholeSaleMarket.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgroPrice.Web.Controllers
 {
@@ -17,11 +18,13 @@ namespace AgroPrice.Web.Controllers
     {
         private readonly IProductService _productService;
         private readonly IRepository<Product> _product;
+        private readonly IRepository<ProductDetails> _productDetails;
 
-        public ProductController(IProductService productService, IRepository<Product> product)
+        public ProductController(IProductService productService, IRepository<Product> product, IRepository<ProductDetails> productDetails)
         {
             _productService = productService;
             _product = product;
+            _productDetails = productDetails;
         }
 
         [HttpGet]
@@ -53,28 +56,30 @@ namespace AgroPrice.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditQuantity(Guid id)
+        public async Task<IActionResult> EditProductDetails(Guid id)
         {
-            var entity = await _product.GetByIdAsync(id);
+            var maxDate = await _productDetails.TableNoTracking.Where(x => x.ProductId == id).MaxAsync(y => y.ModificationDate);
+            var entity = await _productDetails.TableNoTracking.Where(x => x.ProductId == id).FirstOrDefaultAsync(y => y.ModificationDate == maxDate);
             var model = new EditQuantityModel
             {
                 Id = id,
-                //Quantity = entity.Quantity
+                Quantity = entity.Quantity,
+                Price = entity.Price
             };
-            return PartialView("_Partials/_EditQuantity", model);
+            return PartialView("_Partials/_EditProductDetails", model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditQuantityAsync(EditQuantityModel model)
+        public async Task<IActionResult> EditProductDetails(EditQuantityModel model)
         {
-            try
+            if (!ModelState.IsValid) 
             {
-                var entity = await _product.GetByIdAsync(model.Id);
-                //entity.Quantity = model.Quantity;
-                await _product.UpdateAsync(entity);
+                return RedirectToAction("EditProductDetails", new { id = model.Id });
             }
-            catch
+
+            var result = await _productService.RegisterProductDetails(model);
+            if (!result.Success)
             {
-                return PartialView("_Partials/_EditQuantity", model);
+                return RedirectToAction("EditProductDetails", new { id = model.Id });
             }
             return Json(new { success = true });
         }
