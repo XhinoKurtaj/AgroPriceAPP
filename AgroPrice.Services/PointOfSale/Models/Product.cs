@@ -23,7 +23,7 @@ namespace AgroPrice.Services.PointOfSale.Models
         /// <summary>
         /// Gets or sets the Price
         /// </summary>
-        public int Price { get; set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Gets or sets the Origin

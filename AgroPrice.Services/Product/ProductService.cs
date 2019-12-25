@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgroPrice.Core.Data;
+using AgroPrice.Domain.Domain.Product;
 using AgroPrice.Functional;
 using AgroPrice.Services.Product.Infrastructure;
 using AgroPrice.Services.Product.Models;
@@ -16,27 +17,38 @@ namespace AgroPrice.Services.Product
     {
         private readonly IRepository<Domain.Domain.Product.Product> _product;
         private readonly IRepository<Domain.Domain.WholeSaleMarket.WholeSaleMarket> _wholeSaleMarket;
+        private readonly IRepository<ProductDetails> _productDetails;
 
-        public ProductService(IRepository<Domain.Domain.Product.Product> product, IRepository<Domain.Domain.WholeSaleMarket.WholeSaleMarket> wholeSaleMarket)
+        public ProductService(IRepository<Domain.Domain.Product.Product> product, IRepository<Domain.Domain.WholeSaleMarket.WholeSaleMarket> wholeSaleMarket, IRepository<ProductDetails> productDetails)
         {
             _product = product;
             _wholeSaleMarket = wholeSaleMarket;
+            _productDetails = productDetails;
         }
 
         public async Task<Result> RegisterProduct(ProductModel model)
         {
             try
             {
-                var entity = new Domain.Domain.Product.Product
+                //add new product in database
+                var product = new Domain.Domain.Product.Product
                 {
                     Name = model.Name,
                     Origin = model.Origin,
-                    Price = model.Price,
-                    Quantity = model.Quantity,
                     RegisterDate = DateTime.Now,
                     PointOfSaleId = model.PointOfSaleId
                 };
-                await _product.InsertAsync(entity);
+                await _product.InsertAsync(product);
+
+                //add first product-details row for this product
+                var productDetails = new ProductDetails()
+                {
+                    Price = model.Price,
+                    Quantity = model.Quantity,
+                    ProductId = product.Id,
+                    ModificationDate = product.RegisterDate
+                };
+                await _productDetails.InsertAsync(productDetails);
             }
             catch
             {
@@ -67,8 +79,8 @@ namespace AgroPrice.Services.Product
                 else
                 {
                     newProduct.Id = WholeSaleMarketsId;
-                    newProduct.AmountSum = thoseProducts.Sum(model=>model.Quantity);
-                    newProduct.AvaragePrice = thoseProducts.Average(model => model.Price);
+                    //newProduct.AmountSum = thoseProducts.Sum(model=>model.Quantity);
+                    //newProduct.AvaragePrice = thoseProducts.Average(model => model.Price);
                     list.Add(newProduct);
                 }
             }
@@ -101,8 +113,8 @@ namespace AgroPrice.Services.Product
                     {
                         var productInSpecificDate = productOfThisWholeSaleMarket.FirstOrDefault(x =>
                             x.Name == productName && x.RegisterDate.Date == date.Date);
-                        var spePrice = productInSpecificDate == null ? 0 : productInSpecificDate.Price;
-                        price.Add(spePrice);
+                        ////var spePrice = productInSpecificDate == null ? 0 : productInSpecificDate.Price;
+                        //price.Add(spePrice);
                         dateTime.Add(date);
                         date = date.AddDays(1);
                     }

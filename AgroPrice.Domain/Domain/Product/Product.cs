@@ -17,14 +17,6 @@ namespace AgroPrice.Domain.Domain.Product
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Gets or sets the Quantity
-        /// </summary>
-        public int Quantity { get; set; }
-        /// <summary>
-        /// Gets or sets the Price
-        /// </summary>
-        public int Price { get; set; }
-        /// <summary>
         /// Gets or sets the Origin
         /// </summary>
         public string Origin { get; set; }
@@ -43,11 +35,11 @@ namespace AgroPrice.Domain.Domain.Product
 
         #endregion
 
-        //#region Related Info
-        ///// <summary>
-        ///// Gets product details.
-        ///// </summary>
-        //public virtual ICollection<ProductDetail> ProductDetails { get; protected set; } = new List<ProductDetail>();
-        //#endregion
+        #region Related Info
+        /// <summary>
+        /// Gets product details.
+        /// </summary>
+        public virtual ICollection<ProductDetails> ProductDetails { get; protected set; } = new List<ProductDetails>();
+        #endregion
     }
 }

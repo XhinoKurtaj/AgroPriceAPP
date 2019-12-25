@@ -19,18 +19,20 @@ namespace AgroPrice.Services.PointOfSale
     public class PointOfSaleService : IPointOfSaleService
     {
         private readonly IRepository<Domain.Domain.WholeSaleMarket.PointOfSale> _pointOfSale;
+        private readonly IRepository<ProductDetails> _productDetails;
         private readonly IRepository<Domain.Domain.Product.Product> _products;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IDbContext _context;
 
-        public PointOfSaleService(IRepository<Domain.Domain.WholeSaleMarket.PointOfSale> pointOfSale, IRepository<Domain.Domain.Product.Product> products, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IDbContext context)
+        public PointOfSaleService(IRepository<Domain.Domain.WholeSaleMarket.PointOfSale> pointOfSale, IRepository<Domain.Domain.Product.Product> products, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IDbContext context, IRepository<ProductDetails> productDetails)
         {
             _pointOfSale = pointOfSale;
             _products = products;
             _signInManager = signInManager;
             _userManager = userManager;
             _context = context;
+            _productDetails = productDetails;
         }
 
         public async Task<List<PointOfSaleModel>> GetAllPointOfSale()
@@ -47,32 +49,59 @@ namespace AgroPrice.Services.PointOfSale
         {
             var model = new PointOfSaleDetailsModel();
 
+            //get point of sale with this id
             var pointOfSaleDetails = await _pointOfSale.GetByIdAsync(id);
+            //convert to model
             var pointOfSaleModel = pointOfSaleDetails.ToModel<PointOfSaleModel>();
             model.PointOfSaleModel = pointOfSaleModel;
-            var today = DateTime.Now.Date;
+
+            //get all products for this point of sale
             var thisPointOfSaleProducts = _products.TableNoTracking.Where(x => x.PointOfSaleId == id);
-            var todayPointOfSaleProducts =await thisPointOfSaleProducts.Where(x => x.RegisterDate.Date == today).ToListAsync();
+            //var todayPointOfSaleProducts =await thisPointOfSaleProducts.Where(x => x.RegisterDate.Date == today).ToListAsync();
             List<Models.Product> products = new List<Models.Product>();
             foreach (var productName in Products.ProductNames)
             {
+                Domain.Domain.Product.Product thisProduct = null;
                 var newProduct = new Models.Product
                 {
                     Name = productName
                 };
-                var thisProduct =todayPointOfSaleProducts.FirstOrDefault(x => x.Name == productName);
+                // this product with specific name
+                try
+                {
+                    var maxDate = await thisPointOfSaleProducts.Where(x => x.Name == productName)
+                        .MaxAsync(x => x.RegisterDate);
+                    thisProduct = await thisPointOfSaleProducts.Where(x => x.Name == productName)
+                        .FirstOrDefaultAsync(x => x.RegisterDate == maxDate);
+                }
+                catch
+                {
+                    //ignore
+                }
+
                 if (thisProduct==null)
                 {
                     products.Add(newProduct);
                 }
                 else
                 {
-                    newProduct.Id = thisProduct.Id;
-                    newProduct.Origin = thisProduct.Origin;
-                    newProduct.Price = thisProduct.Price;
-                    newProduct.Quantity = thisProduct.Quantity;
-                    newProduct.RegisterDate = thisProduct.RegisterDate;
-                    products.Add(newProduct);
+
+                    var x = _productDetails.TableNoTracking.Where(x => x.ProductId == thisProduct.Id);
+                    var maxProdDetDate =await x.MaxAsync(x => x.ModificationDate);
+                    var productDetails = await x.FirstOrDefaultAsync(x => x.ModificationDate == maxProdDetDate);
+                    if (productDetails != null)
+                    {
+                        if (productDetails.Quantity > 0)
+                        {
+                            newProduct.Id = thisProduct.Id;
+                            newProduct.Origin = thisProduct.Origin;
+                            newProduct.Price = productDetails.Price;
+                            newProduct.Quantity = productDetails.Quantity;
+                            newProduct.RegisterDate = thisProduct.RegisterDate;
+                            products.Add(newProduct);
+                        }
+                    }
+                   
                 }
             }
 
